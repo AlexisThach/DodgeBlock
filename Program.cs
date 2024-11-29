@@ -1,2 +1,2 @@
-﻿using var game = new DodgeBlock.Game1();
+﻿using var game = new DodgeBlock.MyGame();
 game.Run();

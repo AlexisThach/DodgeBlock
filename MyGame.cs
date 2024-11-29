@@ -6,7 +6,7 @@ namespace DodgeBlock;
 public class MyGame : Game {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private Sprite _ship; // instance de Sprite
+    private Bonhomme _ship; // instance de Sprite
 
     public MyGame()
     {
@@ -20,6 +20,8 @@ public class MyGame : Game {
 
     protected override void Initialize()
     {
+        // TODO: Add your initialization logic here
+
         base.Initialize();
     }
 
@@ -27,7 +29,7 @@ public class MyGame : Game {
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         Texture2D shipTexture = Content.Load<Texture2D>("ship2");
-        _ship = new Sprite(shipTexture, new Vector2(150, 150), 150);
+        _ship = new Bonhomme(shipTexture, new Vector2(150, 150), 150);
     }
 
     protected override void Update(GameTime gameTime)

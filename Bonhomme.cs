@@ -5,7 +5,7 @@ using System;
 
 namespace DodgeBlock
 {
-    public class Sprite
+    public class Bonhomme
     {
         private Texture2D _texture;
         protected Vector2 _position;
@@ -49,7 +49,7 @@ namespace DodgeBlock
             get => new Rectangle((int)_position.X, (int)_position.Y, _size, _size);
         }
 
-        public Sprite(Texture2D texture, Vector2 position, int size)
+        public Bonhomme(Texture2D texture, Vector2 position, int size)
         {
             Texture = texture;
             _position = position;

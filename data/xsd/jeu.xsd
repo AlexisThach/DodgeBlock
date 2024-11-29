@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/game"
+        xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/game"
+        elementFormDefault="qualified">
+    <xs:element name="Game">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Player">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="PositionX" type="xs:int"/>
+                            <xs:element name="PositionY" type="xs:int"/>
+                            <xs:element name="Speed" type="xs:int"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Screen">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Width" type="xs:int"/>
+                            <xs:element name="Height" type="xs:int"/>
+                        </xs:sequence>
+                        <xs:attribute name="background-color" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="ListeObstacles">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Obstacle" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="PositionX" type="xs:int"/>
+                                        <xs:element name="PositionY" type="xs:int"/>
+                                        <xs:element name="Speed" type="xs:int"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="ListePowerUps">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="PowerUp" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Type" type="xs:string"/>
+                                        <xs:element name="Duree" type="xs:float"/>
+                                        <xs:element name="PositionX" type="xs:int"/>
+                                        <xs:element name="PositionY" type="xs:int"/>
+                                        <xs:element name="EstActive" type="xs:boolean"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Score" type="xs:int"/>
+                <xs:element name="IsRunning" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

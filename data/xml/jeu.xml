@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Game xmlns="http://www.univ-grenoble-alpes.fr/l3miage/game"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/game ../xsd/jeu.xsd">
+    <Player>
+        <PositionX>50</PositionX>
+        <PositionY>300</PositionY>
+        <Speed>10</Speed>
+    </Player>
+    <Screen background-color="#FFFFFF">
+        <Width>800</Width>
+        <Height>600</Height>
+    </Screen>
+    <ListeObstacles>
+        <Obstacle>
+            <PositionX>100</PositionX>
+            <PositionY>0</PositionY>
+            <Speed>5</Speed>
+        </Obstacle>
+        <Obstacle>
+            <PositionX>200</PositionX>
+            <PositionY>0</PositionY>
+            <Speed>5</Speed>
+        </Obstacle>
+    </ListeObstacles>
+    <ListePowerUps>
+        <PowerUp>
+            <Type>bouclier</Type>
+            <Duree>10</Duree>
+            <PositionX>150</PositionX>
+            <PositionY>0</PositionY>
+            <EstActive>false</EstActive>
+        </PowerUp>
+        <PowerUp>
+            <Type>invincible</Type>
+            <Duree>5</Duree>
+            <PositionX>250</PositionX>
+            <PositionY>0</PositionY>
+            <EstActive>false</EstActive>
+        </PowerUp>
+        <PowerUp>
+            <Type>doubleScore</Type>
+            <Duree>8</Duree>
+            <PositionX>300</PositionX>
+            <PositionY>50</PositionY>
+            <EstActive>false</EstActive>
+         </PowerUp>
+    </ListePowerUps>
+    <Score>0</Score>
+    <IsRunning>false</IsRunning>
+</Game>
+

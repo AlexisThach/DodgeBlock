@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/sauvegarde"
+           xmlns:sa="http://www.univ-grenoble-alpes.fr/l3miage/sauvegarde"
+           elementFormDefault="qualified">
+
+    <!-- Élément racine -->
+    <xs:element name="sauvegarde" type="sa:Sauvegarde"/>
+        
+        <xs:complexType name="Sauvegarde">
+            <xs:sequence>
+                <xs:element name="general" type="sa:General" />
+                <xs:element name="player" type="sa:Player" />
+                <xs:element name="etat-partie" type="sa:EtatPartie" />
+            </xs:sequence>
+        </xs:complexType>
+
+    <xs:complexType name="General">
+        <xs:sequence>
+            <xs:element name="score" type="sa:PositiveInteger" />
+            <xs:element name="saveDate" type="xs:date" />
+            <xs:element name="difficultyLevel" type="sa:PositiveInteger" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Section Player -->
+    <xs:complexType name="Player">
+        <xs:sequence>
+            <xs:element name="position" type="sa:Position"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Section GameState -->
+    <xs:complexType name="EtatPartie">
+        <xs:sequence>
+            <xs:element name="obstacles" type="sa:ObstacleListType" />
+            <xs:element name="powerUps" type="sa:PowerUpListType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Position">
+        <xs:sequence>
+            <xs:element name="X" type="xs:int"/>
+            <xs:element name="Y" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Liste d'Obstacles -->
+    <xs:complexType name="ObstacleListType">
+        <xs:sequence>
+            <xs:element name="obstacle" type="sa:ObstacleType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ObstacleType">
+        <xs:sequence>
+            <xs:element name="position" type="sa:Position" />
+            <xs:element name="speed" type="sa:PositiveInteger" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Liste de PowerUps -->
+    <xs:complexType name="PowerUpListType">
+        <xs:sequence>
+            <xs:element name="powerUp" type="sa:PowerUpType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PowerUpType">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string" />
+            <xs:element name="duree" type="sa:PositiveInteger" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:simpleType name="PositiveInteger">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>

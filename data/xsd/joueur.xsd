@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/player"
+        xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/player"
+        elementFormDefault="qualified">
+
+
+
+    <element name="player" type="db:Player"/>
+
+    <complexType name="Player">
+        <sequence>
+            <element name="firstName" type="string"/>
+            <element name="lastName" type="string"/>
+            <element name="posX" type="double"/>
+            <element name="posY" type="double"/>
+            <element name="speed" type="db:Speed"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="Speed">
+
+        <restriction base="double">
+            <minInclusive value="0"/>
+        </restriction>
+
+    </simpleType>
+
+</schema>
+
+

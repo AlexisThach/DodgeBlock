@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs ="http://www.w3.org/2001/XMLSchema"
         targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/game"
         xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/game"
         elementFormDefault="qualified">
-    <xs:element name="Game">
+    <xs:element name="game">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Player">
+                <xs:element name="player">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="PositionX" type="xs:int"/>
-                            <xs:element name="PositionY" type="xs:int"/>
-                            <xs:element name="Speed" type="xs:int"/>
+                            <xs:element name="positionX" type="xs:int"/>
+                            <xs:element name="positionY" type="xs:int"/>
+                            <xs:element name="speed" type="xs:int"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="Screen">
+                <xs:element name="screen">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Width" type="xs:int"/>
-                            <xs:element name="Height" type="xs:int"/>
+                            <xs:element name="width" type="xs:int"/>
+                            <xs:element name="height" type="xs:int"/>
                         </xs:sequence>
                         <xs:attribute name="background-color" type="xs:string" use="required"/>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="ListeObstacles">
+                <xs:element name="listeObstacles">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Obstacle" maxOccurs="unbounded">
+                            <xs:element name="obstacle" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="PositionX" type="xs:int"/>
-                                        <xs:element name="PositionY" type="xs:int"/>
-                                        <xs:element name="Speed" type="xs:int"/>
+                                        <xs:element name="positionX" type="xs:int"/>
+                                        <xs:element name="positionY" type="xs:int"/>
+                                        <xs:element name="speed" type="xs:int"/>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="ListePowerUps">
+                <xs:element name="listePowerUps">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="PowerUp" maxOccurs="unbounded">
+                            <xs:element name="powerUp" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="Type" type="xs:string"/>
-                                        <xs:element name="Duree" type="xs:float"/>
-                                        <xs:element name="PositionX" type="xs:int"/>
-                                        <xs:element name="PositionY" type="xs:int"/>
-                                        <xs:element name="EstActive" type="xs:boolean"/>
+                                        <xs:element name="type" type="xs:string"/>
+                                        <xs:element name="duree" type="xs:float"/>
+                                        <xs:element name="positionX" type="xs:int"/>
+                                        <xs:element name="positionY" type="xs:int"/>
+                                        <xs:element name="estActive" type="xs:boolean"/>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="Score" type="xs:int"/>
-                <xs:element name="IsRunning" type="xs:boolean"/>
+                <xs:element name="score" type="xs:int"/>
+                <xs:element name="isRunning" type="xs:boolean"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

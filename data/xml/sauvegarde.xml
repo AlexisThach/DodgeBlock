@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sauvegarde xmlns="http://www.univ-grenoble-alpes.fr/l3miage/sauvegarde"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/sauvegarde ../xsd/sauvegarde.xsd">
+
+    <general>
+        <score>50</score>
+        <saveDate>2024-11-29</saveDate>
+        <difficultyLevel>1</difficultyLevel>
+    </general>
+
+    <player>
+        <position>
+            <X>5</X>
+            <Y>10</Y>
+        </position>
+    </player>
+
+    <etat-partie>
+        <obstacles>
+            <obstacle>
+                <position>
+                    <X>7</X>
+                    <Y>12</Y>
+                </position>
+                <speed>2</speed>
+            </obstacle>
+            <obstacle>
+                <position>
+                    <X>3</X>
+                    <Y>8</Y>
+                </position>
+                <speed>4</speed>
+            </obstacle>
+        </obstacles>
+        <powerUps>
+            <powerUp>
+                <type>Shield</type>
+                <duree>10</duree>
+            </powerUp>
+            <powerUp>
+                <type>DoubleScore</type>
+                <duree>5</duree>
+            </powerUp>
+        </powerUps>
+    </etat-partie>
+
+</sauvegarde>

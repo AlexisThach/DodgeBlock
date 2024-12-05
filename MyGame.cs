@@ -3,15 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace DodgeBlock;
-
-public class Game1 : Game
-{
+public class MyGame : Game {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private Bonhomme _ship; // instance de Sprite
 
-    public Game1()
+    public MyGame()
     {
         _graphics = new GraphicsDeviceManager(this);
+        _graphics.IsFullScreen = false;
+        _graphics.PreferredBackBufferWidth = 800; // largeur de la fenêtre
+        _graphics.PreferredBackBufferHeight = 600; // hauteur de la fenêtre
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
     }
@@ -26,17 +28,20 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // TODO: use this.Content to load your game content here
+        Texture2D shipTexture = Content.Load<Texture2D>("ship2");
+        _ship = new Bonhomme(shipTexture, new Vector2(150, 150), 150);
     }
 
     protected override void Update(GameTime gameTime)
     {
+        // Sortir du jeu si la touche Escape ou le bouton Back est pressé
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
             Exit();
+        }
 
-        // TODO: Add your update logic here
+        _ship.Update(gameTime);
 
         base.Update(gameTime);
     }
@@ -45,7 +50,11 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
+
+        _ship.Draw(_spriteBatch);
+
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }

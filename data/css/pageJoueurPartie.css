@@ -1,0 +1,70 @@
+/* Style général de la page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Centre horizontalement */
+    height: 100vh;
+    justify-content: flex-start; /* Aligne le contenu en haut */
+}
+
+/* Titre principal */
+h1.title {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-top: 20px; /* Espacement du haut de la page */
+}
+
+/* Style du tableau */
+table {
+    width: 50%; /* Limite la largeur du tableau */
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Espace entre le titre et le tableau */
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table td {
+    background-color: #f9f9f9;
+}
+
+/* Style des paragraphes dans les cellules */
+table td p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Suppression du gras */
+table td p:first-child {
+    font-weight: normal; /* Suppression du gras */
+}
+
+table td p {
+    color: #555;
+}
+
+/* Effet de survol pour les lignes */
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Style pour les cellules vides */
+table td:empty {
+    background-color: #eee;
+}

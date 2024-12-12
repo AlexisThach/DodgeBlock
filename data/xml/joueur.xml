@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<player xmlns="http://www.univ-grenoble-alpes.fr/l3miage/player"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/sauvegarde ../xsd/joueur.xsd">
-    <firstName>John</firstName>
-    <lastName>Doe</lastName>
-    <posX>0</posX>
-    <posY>0</posY>
-    <speed>5</speed>
-</player>
+<players xmlns="http://www.univ-grenoble-alpes.fr/l3miage/player"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/player ../xsd/joueur.xsd">
+    <player>
+        <nom>Swindar</nom>
+        <posX>18.0</posX>
+        <posY>10.2</posY>
+        <speed>3.0</speed>
+        <parties>
+            <partie date="2024-12-05">
+                <score>180</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>220</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>170</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>200</score>
+            </partie>
+        </parties>
+    </player>
+</players>

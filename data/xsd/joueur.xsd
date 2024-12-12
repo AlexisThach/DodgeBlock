@@ -3,9 +3,7 @@
         targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/player"
         xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/player"
         elementFormDefault="qualified">
-
-
-
+    
     <element name="player" type="db:Player"/>
 
     <complexType name="Player">

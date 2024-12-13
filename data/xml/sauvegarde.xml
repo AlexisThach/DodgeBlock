@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sauvegarde xmlns="http://www.univ-grenoble-alpes.fr/l3miage/sauvegarde"
+<sauvegarde xmlns="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/sauvegarde ../xsd/sauvegarde.xsd">
+            xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock  ../xsd/sauvegarde.xsd">
 
     <general>
         <score>50</score>

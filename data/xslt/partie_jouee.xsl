@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:player="http://www.univ-grenoble-alpes.fr/l3miage/player">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock">
     <!-- Paramètres pour définir la structure de sortie -->
     <xsl:output method="html" indent="yes" encoding="UTF-8" />
 
@@ -35,7 +35,7 @@
     </xsl:template>
 
     <!-- Template principal qui s'applique à l'élément racine -->
-    <xsl:template match="/player:players">
+    <xsl:template match="/db:players">
         <html>
             <head>
                 <title>Liste des Parties</title>
@@ -53,16 +53,16 @@
                     </thead>
                     <tbody>
                         <!-- Parcours de tous les joueurs et parties -->
-                        <xsl:for-each select="player:player/player:parties/player:partie">
+                        <xsl:for-each select="db:player/db:parties/db:partie">
                             <tr>
                                 <td>
-                                    <xsl:value-of select="ancestor::player:player/player:nom" />
+                                    <xsl:value-of select="ancestor::db:player/db:nom" />
                                 </td>
                                 <td>
                                     <xsl:value-of select="@date" />
                                 </td>
                                 <td>
-                                    <xsl:value-of select="player:score" />
+                                    <xsl:value-of select="db:score" />
                                 </td>
                             </tr>
                         </xsl:for-each>

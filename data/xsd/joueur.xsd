@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/player"
-        xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/player"
-        elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/player"
+           xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/player"
+           elementFormDefault="qualified">
 
+    <xs:element name="players">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="player" type="db:Player" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
+    <xs:complexType name="Player">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="posX" type="xs:double"/>
+            <xs:element name="posY" type="xs:double"/>
+            <xs:element name="speed" type="db:Speed"/>
+            <xs:element name="parties" type="db:Parties"/>
+        </xs:sequence>
+    </xs:complexType>
 
-    <element name="player" type="db:Player"/>
+    <!-- Définition du type complexe "Parties" -->
+    <xs:complexType name="Parties">
+        <xs:sequence>
+            <!-- Liste de parties -->
+            <xs:element name="partie" type="db:Partie" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
 
-    <complexType name="Player">
-        <sequence>
-            <element name="firstName" type="string"/>
-            <element name="lastName" type="string"/>
-            <element name="posX" type="double"/>
-            <element name="posY" type="double"/>
-            <element name="speed" type="db:Speed"/>
-        </sequence>
-    </complexType>
+    <!-- Définition du type complexe "Partie" -->
+    <xs:complexType name="Partie">
+        <xs:sequence>
+            <xs:element name="score" type="xs:int" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="date" type="xs:date"/>
+    </xs:complexType>
 
-    <simpleType name="Speed">
+    <xs:simpleType name="Speed">
+        <xs:restriction base="xs:double">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
 
-        <restriction base="double">
-            <minInclusive value="0"/>
-        </restriction>
-
-    </simpleType>
-
-</schema>
-
-
+</xs:schema>

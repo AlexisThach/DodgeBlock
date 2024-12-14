@@ -21,5 +21,13 @@ public class Program
         Console.WriteLine("------------------------- DOM --------------------------------");
         Console.WriteLine("Nombre de joueurs : " + dodgeBlockDOM.CountJoueur());
         Console.WriteLine("Nombre total de parties : " + dodgeBlockDOM.CountPartie());
+        
+        // Récupération des meilleurs scores
+        var bestScores = dodgeBlockDOM.GetBestScores();
+        Console.WriteLine("Meilleurs scores par joueur :");
+        foreach (var score in bestScores)
+        {
+            Console.WriteLine($"Joueur : {score.Key}, Meilleur Score : {score.Value}");
+        }
     }
 }

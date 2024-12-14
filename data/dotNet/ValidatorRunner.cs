@@ -1,40 +1,39 @@
 using System;
 using System.Collections.Generic;
 
-namespace XmlValidatorApp
+namespace DodgeBlock.data.dotNet;
+public class ValidatorRunner
 {
-    public class ValidatorRunner
+    private readonly XmlValidator _validator;
+
+    public ValidatorRunner(XmlValidator validator)
     {
-        private readonly XmlValidator _validator;
+        _validator = validator;
+    }
 
-        public ValidatorRunner(XmlValidator validator)
+    public void Run()
+    {
+        // Chemins relatifs des fichiers XML et XSD
+        List<string> xmlFiles = new List<string>
         {
-            _validator = validator;
-        }
+            "../xml/jeu.xml",
+            "../xml/joueur.xml",
+            "../xml/sauvegarde.xml"
+        };
 
-        public void Run()
+        List<string> xsdFiles = new List<string>
         {
-            // Chemins relatifs des fichiers XML et XSD
-            List<string> xmlFiles = new List<string>
-            {
-                "../xml/jeu.xml",
-                "../xml/joueur.xml",
-                "../xml/sauvegarde.xml"
-            };
+            "../xsd/jeu.xsd",
+            "../xsd/joueur.xsd",
+            "../xsd/sauvegarde.xsd"
+        };
 
-            List<string> xsdFiles = new List<string>
-            {
-                "../xsd/jeu.xsd",
-                "../xsd/joueur.xsd",
-                "../xsd/sauvegarde.xsd"
-            };
-
-            for (int i = 0; i < xmlFiles.Count; i++)
-            {
-                Console.WriteLine($"Validation du fichier XML : {xmlFiles[i]} avec le XSD : {xsdFiles[i]}");
-                _validator.ValidateXml(xmlFiles[i], xsdFiles[i]);
-                Console.WriteLine();
-            }
+        for (int i = 0; i < xmlFiles.Count; i++)
+        {
+            Console.WriteLine($"Validation du fichier XML : {xmlFiles[i]} avec le XSD : {xsdFiles[i]}");
+            _validator.ValidateXml(xmlFiles[i], xsdFiles[i]);
+            Console.WriteLine();
         }
     }
 }
+

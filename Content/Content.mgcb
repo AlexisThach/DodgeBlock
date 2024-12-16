@@ -13,12 +13,19 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Game_font.spritefont
+#begin fonts/Game_font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:fonts/Game_font.spritefont
+/build:fonts/Game_fonts.spritefont
+
+#begin fonts/Game_fonts.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/Game_fonts.spritefont
 
 #begin images/asteroid.png
 /importer:TextureImporter

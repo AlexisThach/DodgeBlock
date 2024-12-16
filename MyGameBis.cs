@@ -57,7 +57,7 @@ public class MyGameBis : Game
 
     protected override void LoadContent()
     {
-        // Charger les textures 
+        // Charger les textures  
         _backgroundTexture = Content.Load<Texture2D>("images/space");
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");

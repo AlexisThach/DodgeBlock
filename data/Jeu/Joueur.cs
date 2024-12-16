@@ -9,27 +9,32 @@ public class Joueur
 {
     private Texture2D _texture;
     protected Vector2 _position;
-    private int _size = 100;
-    private static readonly int _sizeMin = 10;
-    private static readonly int _sizeMax = 100;
+    private int _size = 50;
     private Color _color = Color.White;
-
+    
     // Vitesse et accélération
-    private Vector2 _speed; // Vitesse du vaisseau (déplacements X et Y)
-    private float _speedAcc = 0.2f; // Accélération (maintenant plus rapide)
-    private float _speedDec = 0.1f; // Décélération plus forte (changement important ici)
+    private Vector2 _speed; 
+    private float _speedAcc = 0.2f; 
+    private float _speedDec = 0.1f; 
 
+    public Joueur(Texture2D texture, Vector2 position, int size)
+    {
+        Texture = texture;
+        _position = position;
+        _size = size;
+    }
+    
     // Propriétés pour l'accélération et la décélération, avec des limites
     public float SpeedAcc
     {
         get => _speedAcc;
-        set => _speedAcc = MathHelper.Clamp(value, 0.0f, 1.0f); // Limite entre 0.0f et 1.0f
+        set => _speedAcc = MathHelper.Clamp(value, 0.0f, 1.0f); 
     }
 
     public float SpeedDec
     {
         get => _speedDec;
-        set => _speedDec = MathHelper.Clamp(value, 0.0f, 1.0f); // Limite entre 0.0f et 1.0f
+        set => _speedDec = MathHelper.Clamp(value, 0.0f, 1.0f); 
     }
 
     public Texture2D Texture
@@ -37,25 +42,19 @@ public class Joueur
         get => _texture;
         init => _texture = value;
     }
-
-    public int Size
-    {
-        get => _size;
-        set => _size = Math.Clamp(value, _sizeMin, _sizeMax);
-    }
-
+    
     public Rectangle Rect
     {
-        get => new Rectangle((int)_position.X, (int)_position.Y, _size, _size);
+        get
+        {
+            return new Rectangle(
+                (int)_position.X, 
+                (int)_position.Y,
+                _size,
+                _size
+            );
+        }
     }
-
-    public Joueur(Texture2D texture, Vector2 position, int size)
-    {
-        Texture = texture;
-        _position = position;
-        Size = size;
-    }
-
     public void Update(GameTime gameTime)
     {
         // Accélérer dans la direction en fonction des touches pressées
@@ -82,7 +81,7 @@ public class Joueur
         // Appliquer la vitesse (déplacement)
         _position.X += _speed.X;
         _position.Y += _speed.Y;
-
+        
         // Décélérer rapidement quand aucune touche n'est pressée
         if (!Keyboard.GetState().IsKeyDown(Keys.Up) && _speed.Y < 0)
         {
@@ -105,21 +104,20 @@ public class Joueur
         if (Math.Abs(_speed.X) < 0.01f) _speed.X = 0;
         if (Math.Abs(_speed.Y) < 0.01f) _speed.Y = 0;
         
-        // change size
-        if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+        // Gestion des bordures de l'écran
+        if (_position.X < 0 || _position.X > 1000 - _size)
         {
-            Size -= 1;
+            _speed.X = 0;  
         }
-        if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+        if (_position.Y < 0 || _position.Y > 800 - _size)
         {
-            Size += 1;
+            _speed.Y = 0;  
         }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        var origin = new Vector2(_texture.Width / 2f, _texture.Height / 2f);
-
+        var origin = new Vector2(_texture.Width - _size, _texture.Height - _size);
         spriteBatch.Draw(
             _texture,  // Texture2D
             Rect,      // Rectangle destination
@@ -130,5 +128,7 @@ public class Joueur
             SpriteEffects.None, // SpriteEffects
             0f         // float layerDepth
         );
+
     }
+    
 }

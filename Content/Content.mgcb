@@ -15,8 +15,10 @@
 
 /importer:TextureImporter
 /processor:TextureProcessor
-/build:ship2.png
-/build:asteroid.png
-/build:button.png
+/build:images/ship.png
+/build:images/space.jpg
+/build:images/asteroid.png
+/build:images/bouclier.png
+
 
 

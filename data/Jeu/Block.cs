@@ -12,24 +12,25 @@ public class Block
     private Vector2 _position;
     private float _speed;
     private int _size;
+    private static readonly Random random = new Random();
+
     
     public Rectangle Rect => new Rectangle((int)_position.X, (int)_position.Y, _size, _size);
     
     public Block(Texture2D texture, Vector2 position, int size, float speed)
     {
-        _texture = texture;
+        _texture = texture ?? throw new ArgumentNullException(nameof(texture));
         _position = position;
-        _size = size;
-        _speed = speed;
+        _size = size > 0 ? size : throw new ArgumentOutOfRangeException(nameof(size));
+        _speed = speed > 0 ? speed : throw new ArgumentOutOfRangeException(nameof(speed));
     }
     
     public static List<Block> InitialiseBlocks(Texture2D blockTexture)
     {
         var blocks = new List<Block>();
-        var random = new Random();
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 15; i++)
         {
-            int x = random.Next(0, 800 - 50);  // Position aléatoire sur l'axe des abscisses 
+            int x = random.Next(0, 1000 - 50);  // Position aléatoire sur l'axe des abscisses 
             int size = 50;                    // Taille fixe des blocs
             float speed = random.Next(2, 5);  // Vitesse aléatoire entre 2 et 5
             blocks.Add(new Block(blockTexture, new Vector2(x, -size), size, speed));
@@ -39,9 +40,9 @@ public class Block
 
     public void LoadContent(ContentManager content)
     {
-        if (_texture == null) // Charger la texture uniquement si elle n'est pas déjà chargée
+        if (_texture == null)
         {
-            _texture = content.Load<Texture2D>("asteroid");
+            _texture = content.Load<Texture2D>("asteroidV2");
         }
     }
 
@@ -63,7 +64,6 @@ public class Block
 
     public void ResetPosition()
     {
-        var random = new Random();
-        _position = new Vector2(random.Next(0, 800 - _size), -_size); 
+        _position = new Vector2(random.Next(0, 1000 - _size), -_size); 
     }
 }

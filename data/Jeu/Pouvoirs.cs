@@ -14,31 +14,33 @@ public enum PouvoirsType
 
 public class Pouvoirs
 {
-    public PouvoirsType Type { get; private set; }
-    public Vector2 Position { get; private set; }
-    public Texture2D Texture { get; private set; }
-    public bool IsActive { get; set; } 
-    
-    public Pouvoirs(PouvoirsType type, Texture2D texture, Vector2 position)
+    private Texture2D _texture;
+    private Vector2 _position;
+    private Rectangle _rect;
+
+    public Rectangle Rect => _rect;
+
+    public Pouvoirs(Texture2D texture, Vector2 position)
     {
-        Type = type;
-        Texture = texture;
-        Position = position;
-        IsActive = true; 
+        _texture = texture;
+        _position = position;
+        _rect = new Rectangle((int)position.X, (int)position.Y, _texture.Width, _texture.Height);
     }
-    public void Draw(SpriteBatch spriteBatch)
+    private Vector2 GenerateRandomPosition()
     {
-        spriteBatch.Draw(Texture, Position, Color.White);
+        // Génère une position aléatoire dans la fenêtre de jeu
+        Random rnd = new Random();
+        int x = rnd.Next(0, 800); // Ajuste la taille en fonction de ta fenêtre
+        int y = rnd.Next(0, 600);
+        return new Vector2(x, y);
     }
     
-    public bool CheckCollision(Rectangle playerRect)
+    public static Pouvoirs GeneratePowerUp(Texture2D texture, int screenWidth, int screenHeight)
     {
-        return playerRect.Intersects(new Rectangle(Position.ToPoint(), new Point(Texture.Width, Texture.Height)));
+        Random rand = new Random();
+        Vector2 position = new Vector2(rand.Next(0, screenWidth - texture.Width), rand.Next(0, screenHeight - texture.Height));
+        return new Pouvoirs(texture, position);
     }
-    
-    
-    
-    
     
 }
 

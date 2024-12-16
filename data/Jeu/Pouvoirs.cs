@@ -8,38 +8,67 @@ namespace DodgeBlock.data.Jeu;
 public enum PouvoirsType
 {
     Bouclier,       // Bouclier : protège contre un impact
-    Invincibility,  // Invincibilité : immunité temporaire
+    Invincibilite,  // Invincibilité : immunité temporaire
     DoubleScore,    // DoubleScore : double le score obtenu pendant un temps limité
 }
 
 public class Pouvoirs
-{
-    private Texture2D _texture;
-    private Vector2 _position;
-    private Rectangle _rect;
+{   
+    public PouvoirsType Type { get; private set; }
+    public float Duree { get; private set; }
+    public bool Actif { get; private set; }
 
-    public Rectangle Rect => _rect;
+    public int PositionX { get; private set; }
+    public int PositionY { get; private set; }
 
-    public Pouvoirs(Texture2D texture, Vector2 position)
+    private float tempsRestant;
+
+    private static Random random = new Random();
+    public Pouvoirs(PouvoirsType type, float duree)
     {
-        _texture = texture;
-        _position = position;
-        _rect = new Rectangle((int)position.X, (int)position.Y, _texture.Width, _texture.Height);
+        Type = type;
+        Duree = duree;
+        Actif = false;
+        tempsRestant = 0;
+        GenererPositionAleatoire(950, 750); 
     }
-    private Vector2 GenerateRandomPosition()
+    public void GenererPositionAleatoire(int largeurMax, int hauteurMax)
     {
-        // Génère une position aléatoire dans la fenêtre de jeu
-        Random rnd = new Random();
-        int x = rnd.Next(0, 800); // Ajuste la taille en fonction de ta fenêtre
-        int y = rnd.Next(0, 600);
-        return new Vector2(x, y);
+        PositionX = random.Next(0, largeurMax); // Position X entre 0 et largeurMax
+        PositionY = random.Next(0, hauteurMax); // Position Y entre 0 et hauteurMax
+        Console.WriteLine($"Position aléatoire de {Type} : ({PositionX}, {PositionY})");
     }
     
-    public static Pouvoirs GeneratePowerUp(Texture2D texture, int screenWidth, int screenHeight)
+    public void ActiverPouvoir()
     {
-        Random rand = new Random();
-        Vector2 position = new Vector2(rand.Next(0, screenWidth - texture.Width), rand.Next(0, screenHeight - texture.Height));
-        return new Pouvoirs(texture, position);
+        if (!Actif)
+        {
+            Actif = true;
+            tempsRestant = Duree;
+            Console.WriteLine($"{Type} activé pour {Duree} secondes.");
+        }
+    }
+    public void DesactiverPouvoir()
+    {
+        if (Actif)
+        {
+            Actif = false;
+            tempsRestant = 0;
+            Console.WriteLine($"{Type} désactivé.");
+        }
+    }
+
+    // Mettre à jour le temps restant
+    public void MettreAJour(float deltaTime)
+    {
+        if (Actif)
+        {
+            tempsRestant -= deltaTime;
+            if (tempsRestant <= 0)
+            {
+                DesactiverPouvoir();
+            }
+        }
     }
     
 }

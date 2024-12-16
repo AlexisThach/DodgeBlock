@@ -39,7 +39,6 @@
 <<<<<<< HEAD
 =======
     <ItemGroup>
-      <Folder Include="Content\fonts\" />
       <Folder Include="data\html\" />
     </ItemGroup>
     <ItemGroup>

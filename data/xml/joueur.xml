@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<players xmlns="http://www.univ-grenoble-alpes.fr/l3miage/player"
+<players xmlns="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/player ../xsd/joueur.xsd">
+         xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/joueur.xsd">
     <player>
         <nom>Swindar</nom>
         <posX>18.0</posX>
@@ -19,6 +19,23 @@
             </partie>
             <partie date="2024-12-08">
                 <score>200</score>
+            </partie>
+        </parties>
+    </player>
+    <player>
+        <nom>Ahyd</nom>
+        <posX>18.0</posX>
+        <posY>10.2</posY>
+        <speed>3.0</speed>
+        <parties>
+            <partie date="2024-12-05">
+                <score>300</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>210</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>140</score>
             </partie>
         </parties>
     </player>

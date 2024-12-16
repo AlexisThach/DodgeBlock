@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs ="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/game"
-        xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/game"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
+        xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
         elementFormDefault="qualified">
     <xs:element name="game">
         <xs:complexType>

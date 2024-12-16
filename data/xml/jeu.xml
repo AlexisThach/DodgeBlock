@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<game xmlns="http://www.univ-grenoble-alpes.fr/l3miage/game"
+<game xmlns="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/game ../xsd/jeu.xsd">
+      xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/jeu.xsd">
     <player>
         <positionX>50</positionX>
         <positionY>300</positionY>

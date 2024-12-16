@@ -32,7 +32,7 @@ public class Block
         {
             int x = random.Next(0, 1000 - 50);  // Position aléatoire sur l'axe des abscisses 
             int size = 50;                    // Taille fixe des blocs
-            float speed = random.Next(2, 5);  // Vitesse aléatoire entre 2 et 5
+            float speed = random.Next(130, 200);  // Vitesse aléatoire
             blocks.Add(new Block(blockTexture, new Vector2(x, -size), size, speed));
         }
         return blocks;
@@ -49,8 +49,8 @@ public class Block
     public void Update(GameTime gameTime)
     {
         // Faire tomber le bloc
-        _position.Y += _speed;
-
+        _position.Y += _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        
         // Réinitialiser le bloc en haut de l'écran lorsqu'il sort du bas
         if (_position.Y > 800)
         {

@@ -50,6 +50,9 @@ public class MyGameBis : Game
         _ship = new Joueur(_shipTexture, GetPositionDepart(), 50);
         _blocks = Block.InitialiseBlocks(_blockTexture); 
         _pouvoirs = new List<Pouvoirs>();
+        _pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 60.0f));
+        //_pouvoirs.Add(new Pouvoirs(PouvoirsType.Invincibilite, 10.0f));
+        //_pouvoirs.Add(new Pouvoirs(PouvoirsType.DoubleScore, 15.0f));
     }
 
     protected override void LoadContent()
@@ -58,7 +61,7 @@ public class MyGameBis : Game
         _backgroundTexture = Content.Load<Texture2D>("images/space");
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
-       // _font = Content.Load<SpriteFont>("fonts/arial"); // MARCHE PAS SUR MAC COMMENT FAIREEEEEEEEEEEEEEEEEEEEEEEEEEE
+        //_font = Content.Load<SpriteFont>("fonts/Arial"); 
         
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -68,10 +71,10 @@ public class MyGameBis : Game
     {
         // Gestion du temps
         _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if(_timer >=1f)
+        if(_timer >=1.0f)
         {
-            _score++;
-            _timer = 0f;
+            _score+=10;
+            _timer -= 1.0f;
         }
         
         // Mise à jour du joueur
@@ -88,6 +91,11 @@ public class MyGameBis : Game
                 HandleCollision(); // Gérer la collision
                 break;
             }
+        }
+
+        foreach (var pouvoir in _pouvoirs)
+        {
+            pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
         
         // Gestion des entrées pour quitter
@@ -110,7 +118,7 @@ public class MyGameBis : Game
         _ship.Draw(_spriteBatch);
         
         // Dessiner le score
-       // _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(10, 10), Color.White);
+        //_spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
 
         // Dessiner les blocs
         foreach (var block in _blocks)
@@ -118,13 +126,37 @@ public class MyGameBis : Game
             block.Draw(_spriteBatch);
         }
         
+        // Dessiner les pouvoirs actifs
+        foreach (var pouvoir in _pouvoirs)
+        {
+            if (pouvoir.Actif)
+            {
+                _spriteBatch.DrawString(_font, $"{pouvoir.Type}: {Math.Max(0, (int)pouvoir.Duree)}s", new Vector2(50, 100), Color.White);
+            }
+        }
+        
         _spriteBatch.End();
         base.Draw(gameTime);
     }
     public void HandleCollision()
     {
-        Console.WriteLine("Collision détectée !");
-        Exit();
+        // Si le joueur a un pouvoir Bouclier actif, on ne fait rien à la collision
+        if (_pouvoirs.Exists(p => p.Type == PouvoirsType.Bouclier && p.Actif))
+        {
+            // On désactive le pouvoir Bouclier
+            var bouclier = _pouvoirs.Find(p => p.Type == PouvoirsType.Bouclier && p.Actif);
+            if (bouclier != null)
+            {
+                bouclier.DesactiverPouvoir();
+                Console.WriteLine("Collision ignorée grâce au Bouclier !");
+            }
+        }
+        else
+        {
+            // si aucun bouclier actif, le jeu se termine
+            Console.WriteLine("Collision détectée !");
+            Exit();
+        }
     }
     
 }

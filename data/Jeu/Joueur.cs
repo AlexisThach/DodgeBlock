@@ -105,13 +105,25 @@ public class Joueur
         if (Math.Abs(_speed.Y) < 0.01f) _speed.Y = 0;
         
         // Gestion des bordures de l'écran
-        if (_position.X < 0 || _position.X > 1000 - _size)
+        if (_position.X < 0)
         {
-            _speed.X = 0;  
+            _position.X = 0; // Empêche de sortir à gauche
+            _speed.X = 0;
         }
-        if (_position.Y < 0 || _position.Y > 800 - _size)
+        if (_position.X > 1000 - _size)
         {
-            _speed.Y = 0;  
+            _position.X = 1000 - _size; // Empêche de sortir à droite
+            _speed.X = 0;   
+        }
+        if (_position.Y < 0)
+        {
+            _position.Y = 0; // Empêche de sortir en haut
+            _speed.Y = 0;
+        }
+        if (_position.Y > 800 - _size)
+        {
+            _position.Y = 800 - _size; // Empêche de sortir en bas
+            _speed.Y = 0;
         }
     }
 

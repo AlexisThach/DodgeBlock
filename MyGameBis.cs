@@ -57,11 +57,11 @@ public class MyGameBis : Game
 
     protected override void LoadContent()
     {
-        // Charger les textures 
+        // Charger les textures  
         _backgroundTexture = Content.Load<Texture2D>("images/space");
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
-        //_font = Content.Load<SpriteFont>("fonts/Arial"); 
+        _font = Content.Load<SpriteFont>("fonts/Game_font"); 
         
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -118,7 +118,7 @@ public class MyGameBis : Game
         _ship.Draw(_spriteBatch);
         
         // Dessiner le score
-        //_spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
+        _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
 
         // Dessiner les blocs
         foreach (var block in _blocks)

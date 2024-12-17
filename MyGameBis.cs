@@ -63,7 +63,7 @@ public class MyGameBis : Game
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
         _shieldTexture = Content.Load<Texture2D>("images/shield");
-        _font = Content.Load<SpriteFont>("fonts/textFont");
+        _font = Content.Load<SpriteFont>("fonts/Game_fonts");
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
     }

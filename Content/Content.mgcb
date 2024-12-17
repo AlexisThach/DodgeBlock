@@ -13,6 +13,20 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin fonts/Game_font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/Game_fonts.spritefont
+
+#begin fonts/Game_fonts.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/Game_fonts.spritefont
+
 #begin images/asteroid.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -25,7 +39,7 @@
 /processorParam:TextureFormat=Color
 /build:images/asteroid.png
 
-#begin images/shield.png
+#begin images/bouclier.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,7 +49,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/shield.png
+/build:images/bouclier.png
 
 #begin images/ship.png
 /importer:TextureImporter
@@ -60,11 +74,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/space.jpg
-
-#begin textFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:fonts/textFont.spritefont
 

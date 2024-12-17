@@ -16,7 +16,7 @@ public class Joueur
     private Vector2 _speed; 
     private float _speedAcc = 0.2f; 
     private float _speedDec = 0.1f; 
-
+    
     public Joueur(Texture2D texture, Vector2 position, int size)
     {
         Texture = texture;
@@ -121,7 +121,7 @@ public class Joueur
     public void Draw(SpriteBatch spriteBatch)
     {
         // Débug hitbox du joueur
-        spriteBatch.Draw(_texture, Rect, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
+        //spriteBatch.Draw(_texture, Rect, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
 
         var origin = new Vector2(_texture.Width - _size, _texture.Height - _size);
         spriteBatch.Draw(
@@ -134,7 +134,10 @@ public class Joueur
             SpriteEffects.None, // SpriteEffects
             0f         // float layerDepth
         );
-
+    }
+    public void ChangerApparence(Texture2D nouvelleTexture)
+    {
+        _texture = nouvelleTexture;
     }
     
 }

@@ -1,80 +1,89 @@
 ```plantuml
 
-class Game {
-    player : Player
-    screen : Screen
-    listePowerUps : ListePowerUps
-    listeObstacle : ListeObstacle
-    score : int
-    isRunning: bool
-    void startGame()
-    void pauseGame()
-    void endGame()
-    void updateGame()
-    void afficherScore()
-    void checkPowerUpCollision()
+class MyGame {
+    -_ship : Joueur
+    -_blocks : ListeBlock
+    -_pouvoirs : ListePouvoirs
+    -_score : int
+    -_timer : float
+    -_currentState : GameState
+    +MyGame()
+    -void GetPositionDepart()
+    #Initialize() : void
+    #LoadContent() : void
+    #Update() : void
+    #Draw() : void
+    +HandleCollision() : void
+    -ActiverPouvoir() : void
+    -ResetGame() : void
 }
 
-class Player {
-    positionX : int
-    positionY : int
-    speed : int
-    void deplace()
-    bool isCollidingWithObstacle()
-    void updatePosition()
+class Joueur {
+    -_texture : Texture2D
+    #_position : Vector2
+    -_size : int
+    -_speed : Vector2
+    -_speedAcc : float
+    -_speedDec : float
+    +Joueur(texture: Texture2D, position: Vector2, size: int)
+    +Update(gameTime : GameTime) : void
+    +Draw(spriteBatch : SpriteBatch) : void
+    +ChangerApparence(nouvelleTexture: Texture2D) : void
 }
 
-class ListeObstacle {
-    obstacle : Obstacle[]
+class ListeBlock {
+    _blocks : Block[]
 }
 
-class Obstacle {
-    positionX : int
-    positionY : int
-    speed : int
-    void tombe()
-    bool isOutOfScreen()
-    void updatePosition()
+class Block {
+    -_texture : Texture2D
+    -_position : Vector2
+    -_size : int
+    -_speed : float
+    +Block(texture: Texture2D, position: Vector2, size: int, speed: float)
+    +InitialiseBlocks(blockTexture: Texture2D) : List<Block>
+    +LoadContent(content: ContentManager) : void
+    +Update(gameTime : GameTime) : void
+    +Draw(spriteBatch : SpriteBatch) : void 
+    +ResetPosition() : void 
 }
 
-class Screen {
-    width : int
-    height : int
-    void render()
-    void clearScreen()
-    void drawPlayer(player: Player)
-    void drawObstacles(blocks: List<Block> )
-    void drawPowerUps(powerUps: List<PowerUps> )
-    void drawScore(score: int)
+class ListePouvoirs {
+   _pouvoirs : Pouvoirs[]
 }
 
-class ListePowerUps {
-    power_ups : PowerUps[]
+class Pouvoirs {
+    +Type : PouvoirsType
+    -_duree : float
+    -_actif : bool
+    -_positionX : int
+    -_positionY : int
+    -_tempsRestant : float
+    +Pouvoirs(type: PouvoirsType, duree: float)
+    +GenererPositionAleatoire(largeurMax : int, hauteurMax : int) : void
+    +ActiverPouvoir() : void
+    +DesactiverPouvoir() : void 
+    +MettreAJour(deltaTime : float, joueur : Joueur) : void
+    +Draw(spriteBatch : SpriteBatch, texture : Texture2D) : void 
 }
 
-class PowerUps {
-    type : PowerUpsType
-    duree : float
-    estActive : bool
-    positionX : int
-    positionY : int
-    void activate(player: Player)
-    void deactivate(player: Player)
-    void update(durationTime: float)
+enum GameState{
+    EnJeu
+    GameOver
 }
 
-enum PowerUpsType {
+enum PouvoirsType {
     bouclier
     invincible
     doubleScore
 }
 
-Game *-- Screen
-Game *-- Player
-Game *-- ListeObstacle
-Game *-- ListePowerUps
-ListeObstacle *-- Obstacle
-ListePowerUps *-- PowerUps
-PowerUps *-- PowerUpsType
+MyGame *-- Joueur
+MyGame *-- ListeBlock
+MyGame *-- ListePouvoirs
+MyGame *-- GameState
+ListeBlock *-- Block
+ListePouvoirs *-- Pouvoirs
+Pouvoirs *-- PouvoirsType
 
 ```

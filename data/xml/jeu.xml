@@ -3,50 +3,90 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/jeu.xsd">
     <player>
-        <positionX>50</positionX>
+        <positionX>500</positionX>
         <positionY>300</positionY>
-        <speed>10</speed>
+        <speed>3</speed>
     </player>
     <screen background-color="#FFFFFF">
-        <width>800</width>
-        <height>600</height>
+        <width>1000</width>
+        <height>800</height>
     </screen>
     <listeObstacles>
         <obstacle>
             <positionX>100</positionX>
-            <positionY>0</positionY>
-            <speed>5</speed>
+            <positionY>50</positionY>
+            <speed>200</speed>
         </obstacle>
         <obstacle>
             <positionX>200</positionX>
-            <positionY>0</positionY>
-            <speed>5</speed>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>300</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>400</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>450</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>500</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>550</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>600</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>650</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
+        </obstacle>
+        <obstacle>
+            <positionX>700</positionX>
+            <positionY>350</positionY>
+            <speed>200</speed>
         </obstacle>
     </listeObstacles>
     <listePowerUps>
         <powerUp>
             <type>bouclier</type>
-            <duree>10</duree>
-            <positionX>150</positionX>
-            <positionY>0</positionY>
+            <duree>60</duree>
+            <positionX>225</positionX>
+            <positionY>500</positionY>
             <estActive>false</estActive>
         </powerUp>
         <powerUp>
             <type>invincible</type>
-            <duree>5</duree>
+            <duree>10</duree>
             <positionX>250</positionX>
-            <positionY>0</positionY>
+            <positionY>300</positionY>
             <estActive>false</estActive>
         </powerUp>
         <powerUp>
             <type>doubleScore</type>
-            <duree>8</duree>
-            <positionX>300</positionX>
-            <positionY>50</positionY>
+            <duree>10</duree>
+            <positionX>400</positionX>
+            <positionY>650</positionY>
             <estActive>false</estActive>
          </powerUp>
     </listePowerUps>
-    <score>0</score>
+    <score>60</score>
     <isRunning>false</isRunning>
 </game>
 

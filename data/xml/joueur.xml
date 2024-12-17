@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/joueur.xsd">
     <player>
         <nom>Swindar</nom>
-        <posX>18.0</posX>
-        <posY>10.2</posY>
+        <posX>353.0</posX>
+        <posY>245.0</posY>
         <speed>3.0</speed>
         <parties>
             <partie date="2024-12-05">
@@ -23,9 +23,9 @@
         </parties>
     </player>
     <player>
-        <nom>Ahyd</nom>
-        <posX>18.0</posX>
-        <posY>10.2</posY>
+        <nom>Thyd</nom>
+        <posX>536.0</posX>
+        <posY>242.0</posY>
         <speed>3.0</speed>
         <parties>
             <partie date="2024-12-05">
@@ -33,6 +33,57 @@
             </partie>
             <partie date="2024-12-08">
                 <score>210</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>140</score>
+            </partie>
+        </parties>
+    </player>
+    <player>
+        <nom>Algred</nom>
+        <posX>682.0</posX>
+        <posY>423.0</posY>
+        <speed>3.0</speed>
+        <parties>
+            <partie date="2024-12-05">
+                <score>340</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>210</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>420</score>
+            </partie>
+        </parties>
+    </player>
+    <player>
+        <nom>Thierno</nom>
+        <posX>532.0</posX>
+        <posY>563.0</posY>
+        <speed>3.0</speed>
+        <parties>
+            <partie date="2024-12-05">
+                <score>240</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>220</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>140</score>
+            </partie>
+        </parties>
+    </player>
+    <player>
+        <nom>Bobo</nom>
+        <posX>231.0</posX>
+        <posY>456.0</posY>
+        <speed>3.0</speed>
+        <parties>
+            <partie date="2024-12-05">
+                <score>100</score>
+            </partie>
+            <partie date="2024-12-08">
+                <score>110</score>
             </partie>
             <partie date="2024-12-08">
                 <score>140</score>

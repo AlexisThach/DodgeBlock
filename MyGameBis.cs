@@ -21,6 +21,7 @@ public class MyGameBis : Game
     private Texture2D _blockTexture; 
     private Texture2D _shipTexture;
     private Texture2D _shieldTexture;
+    private Texture2D _shipWithShieldTexture;
     
     private int _score = 0;          
     private float _timer = 0f;       
@@ -28,6 +29,11 @@ public class MyGameBis : Game
     
     
     private GameState _currentState = GameState.EnJeu;
+    public enum GameState
+    {
+        EnJeu,
+        GameOver
+    }
 
     public MyGameBis()
     {
@@ -66,6 +72,8 @@ public class MyGameBis : Game
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
         _shieldTexture = Content.Load<Texture2D>("images/shield");
+        _shipWithShieldTexture = Content.Load<Texture2D>("images/ship_with_shield");
+        
         _font = Content.Load<SpriteFont>("fonts/Game_fonts"); 
         
         _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -74,6 +82,9 @@ public class MyGameBis : Game
 
     protected override void Update(GameTime gameTime)
     {
+        // Mise à jour du joueur
+        _ship.Update(gameTime);
+        
         // Si le jeu est en GameOver, gérer les entrées pour redémarrer ou quitter
         if (_currentState == GameState.GameOver)
         {
@@ -99,8 +110,6 @@ public class MyGameBis : Game
             _timer -= 1.0f;
         }
 
-        // Mise à jour du joueur
-        _ship.Update(gameTime);
 
         // Mise à jour des blocs et collisions
         foreach (var block in _blocks)
@@ -114,19 +123,20 @@ public class MyGameBis : Game
             }
         }
 
-        // Mise à jour des pouvoirs
-        foreach (var pouvoir in _pouvoirs)
+        // Vérifier les collisions entre le joueur et les pouvoirs
+        for (int i = 0; i < _pouvoirs.Count; i++)
         {
-            pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds);
-
-            // Si le pouvoir n'est pas actif, vérifier collision avec le joueur
-            if (!pouvoir.Actif && new Rectangle(pouvoir.PositionX, pouvoir.PositionY, 50, 50).Intersects(_ship.Rect))
+            var pouvoir = _pouvoirs[i];
+    
+            if (_ship.Rect.Intersects(pouvoir.Rect))
             {
-                ActiverPouvoir(pouvoir);
+                ActiverPouvoir(pouvoir); 
+                _pouvoirs.RemoveAt(i); 
+                break; 
             }
         }
 
-        // Gestion des entrées pour quitter
+        // Gestion des entrées pour quitter (en cours de jeu)
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
             Exit();
@@ -145,14 +155,23 @@ public class MyGameBis : Game
 
         if (_currentState == GameState.EnJeu)
         {
+            // Dessiner les pouvoirs non collectés
+            foreach (var pouvoir in _pouvoirs)
+            {
+                if (!pouvoir.Actif)
+                {
+                    pouvoir.Draw(_spriteBatch, _shieldTexture);
+                }
+            }
             // Dessiner le joueur, blocs et score
             _ship.Draw(_spriteBatch);
             foreach (var block in _blocks)
             {
                 block.Draw(_spriteBatch);
             }
-            _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
+            
         }
+        
         else if (_currentState == GameState.GameOver)
         {
             // Définir les dimensions et la position du cadre
@@ -174,28 +193,29 @@ public class MyGameBis : Game
             _spriteBatch.DrawString(_font, "GAME OVER", new Vector2(cadreX + 120, cadreY + 20), Color.Red);
             _spriteBatch.DrawString(_font, "Appuyez sur R pour rejouer", textPos2, Color.White);
             _spriteBatch.DrawString(_font, "Appuyez sur Echap pour quitter", textPos3, Color.White);
+            
         }
-
-
+        
+        _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
         _spriteBatch.End();
-
         base.Draw(gameTime);
     }
 
     public void HandleCollision()
     {
-        // Vérifier si le joueur a un pouvoir Bouclier actif
-        if (_pouvoirs.Exists(p => p.Type == PouvoirsType.Bouclier && p.Actif))
+        // Vérifie si le joueur a un pouvoir Bouclier actif
+        var bouclier = _pouvoirs.Find(p => p.Type == PouvoirsType.Bouclier && p.Actif);
+        if (bouclier != null)
         {
-            var bouclier = _pouvoirs.Find(p => p.Type == PouvoirsType.Bouclier && p.Actif);
-            bouclier?.DesactiverPouvoir();
+            bouclier.DesactiverPouvoir();
+            _pouvoirs.Remove(bouclier);
             Console.WriteLine("Collision ignorée grâce au Bouclier !");
+            _ship.ChangerApparence(_shipTexture);
+            return;
         }
-        else
-        {
-            Console.WriteLine("Game Over !");
-            _currentState = GameState.GameOver; // Passer à l'état GameOver
-        }
+        
+        Console.WriteLine("Game Over !");
+        _currentState = GameState.GameOver; 
     }    
     private void ActiverPouvoir(Pouvoirs pouvoir)
     {
@@ -204,7 +224,7 @@ public class MyGameBis : Game
         switch (pouvoir.Type)
         {
             case PouvoirsType.Bouclier:
-                Console.WriteLine("Bouclier activé !");
+                _ship.ChangerApparence(_shipWithShieldTexture);
                 break;
 
             case PouvoirsType.Invincibilite:
@@ -222,7 +242,7 @@ public class MyGameBis : Game
     }
     private void ResetGame()
     {
-        _currentState = GameState.EnJeu; // Revenir en mode EnJeu
+        _currentState = GameState.EnJeu;
         _score = 0;
         _timer = 0f;
 
@@ -234,16 +254,9 @@ public class MyGameBis : Game
 
         // Réinitialiser les pouvoirs
         _pouvoirs = new List<Pouvoirs>();
-        _pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 60.0f));
+        _pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 0f));
     }
-
-
     
-    public enum GameState
-    {
-        EnJeu,
-        GameOver
-    }
 
     
 }

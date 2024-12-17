@@ -20,6 +20,9 @@ public class Pouvoirs
 
     public int PositionX { get; private set; }
     public int PositionY { get; private set; }
+    
+    public Rectangle Rect => new Rectangle(PositionX, PositionY, 50, 50); // Taille du pouvoir
+
 
     private float tempsRestant;
 
@@ -30,12 +33,12 @@ public class Pouvoirs
         Duree = duree;
         Actif = false;
         tempsRestant = 0;
-        GenererPositionAleatoire(1000, 800 ); 
+        GenererPositionAleatoire(950, 750); 
     }
     public void GenererPositionAleatoire(int largeurMax, int hauteurMax)
     {
-        PositionX = random.Next(0, largeurMax - 50); // Position X entre 0 et largeurMax
-        PositionY = random.Next(0, hauteurMax - 50); // Position Y entre 0 et hauteurMax
+        PositionX = random.Next(0, largeurMax); // Position X entre 0 et largeurMax
+        PositionY = random.Next(0, hauteurMax); // Position Y entre 0 et hauteurMax
         Console.WriteLine($"Position aléatoire de {Type} : ({PositionX}, {PositionY})");
     }
     
@@ -59,7 +62,7 @@ public class Pouvoirs
     }
 
     // Mettre à jour le temps restant
-    public void MettreAJour(float deltaTime)
+    public void MettreAJour(float deltaTime, Joueur joueur)
     {
         if (Actif)
         {

@@ -63,8 +63,7 @@ public class MyGameBis : Game
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
         _shieldTexture = Content.Load<Texture2D>("images/shield");
-        //_font = Content.Load<SpriteFont>("fonts/Game_fonts"); 
-        
+        _font = Content.Load<SpriteFont>("fonts/textFont");
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
     }
@@ -150,7 +149,7 @@ public class MyGameBis : Game
         }
         
         // Dessiner le score
-        //_spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
+        _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
         
         _spriteBatch.End();
         base.Draw(gameTime);

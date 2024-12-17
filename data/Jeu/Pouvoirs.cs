@@ -30,12 +30,12 @@ public class Pouvoirs
         Duree = duree;
         Actif = false;
         tempsRestant = 0;
-        GenererPositionAleatoire(950, 750); 
+        GenererPositionAleatoire(1000, 800 ); 
     }
     public void GenererPositionAleatoire(int largeurMax, int hauteurMax)
     {
-        PositionX = random.Next(0, largeurMax); // Position X entre 0 et largeurMax
-        PositionY = random.Next(0, hauteurMax); // Position Y entre 0 et hauteurMax
+        PositionX = random.Next(0, largeurMax - 50); // Position X entre 0 et largeurMax
+        PositionY = random.Next(0, hauteurMax - 50); // Position Y entre 0 et hauteurMax
         Console.WriteLine($"Position aléatoire de {Type} : ({PositionX}, {PositionY})");
     }
     

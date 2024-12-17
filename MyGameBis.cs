@@ -49,9 +49,11 @@ public class MyGameBis : Game
         
         
         _ship = new Joueur(_shipTexture, GetPositionDepart(), 50);
-        _blocks = Block.InitialiseBlocks(_blockTexture); 
-        _pouvoirs = new List<Pouvoirs>();
-        _pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 60.0f));
+        _blocks = Block.InitialiseBlocks(_blockTexture);
+        _pouvoirs = new List<Pouvoirs>()
+        {
+            new Pouvoirs(PouvoirsType.Bouclier, 60.0f)
+        };
         //_pouvoirs.Add(new Pouvoirs(PouvoirsType.Invincibilite, 10.0f));
         //_pouvoirs.Add(new Pouvoirs(PouvoirsType.DoubleScore, 15.0f));
     }
@@ -102,11 +104,7 @@ public class MyGameBis : Game
             // Si le pouvoir n'est pas actif, vérifier collision avec le joueur
             if (!pouvoir.Actif && new Rectangle(pouvoir.PositionX, pouvoir.PositionY, 50, 50).Intersects(_ship.Rect))
             {
-                if (pouvoir.Type == PouvoirsType.Bouclier)
-                {
-                    pouvoir.ActiverPouvoir();
-                    Console.WriteLine("Bouclier collecté !");
-                }
+                ActiverPouvoir(pouvoir);
             }
         }
         
@@ -139,14 +137,14 @@ public class MyGameBis : Game
         // Dessiner les pouvoirs actifs
         foreach (var pouvoir in _pouvoirs)
         {
-            if (pouvoir.Actif)
+            if (!pouvoir.Actif)
             {
-                _spriteBatch.DrawString(_font, $"{pouvoir.Type}: {Math.Max(0, (int)pouvoir.Duree)}s", new Vector2(50, 100), Color.White);
+                pouvoir.Draw(_spriteBatch, _shieldTexture);
             }
         }
         if (_pouvoirs.Exists(p => p.Type == PouvoirsType.Bouclier && p.Actif))
         {
-            _spriteBatch.Draw(_shieldTexture, _ship.Rect, Color.Blue * 0.5f); // Aura bleue semi-transparente
+            _spriteBatch.Draw(_shieldTexture, _ship.Rect, Color.Cyan * 0.5f); // Aura bleue semi-transparente
         }
         
         // Dessiner le score
@@ -157,22 +155,43 @@ public class MyGameBis : Game
     }
     public void HandleCollision()
     {
-        // Si le joueur a un pouvoir Bouclier actif, on ne fait rien à la collision
-        if (_pouvoirs.Exists(p => p.Type == PouvoirsType.Bouclier && p.Actif))
+        // Chercher un bouclier actif
+        var bouclier = _pouvoirs.Find(p => p.Type == PouvoirsType.Bouclier && p.Actif);
+
+        if (bouclier != null)
         {
-            // On désactive le pouvoir Bouclier
-            var bouclier = _pouvoirs.Find(p => p.Type == PouvoirsType.Bouclier && p.Actif);
-            if (bouclier != null)
-            {
-                bouclier.DesactiverPouvoir();
-                Console.WriteLine("Collision ignorée grâce au Bouclier !");
-            }
+            // Si un bouclier est actif, désactiver le bouclier et ignorer la collision
+            bouclier.DesactiverPouvoir();
+            Console.WriteLine("Collision évitée grâce au Bouclier !");
         }
         else
         {
-            // si aucun bouclier actif, le jeu se termine
-            Console.WriteLine("Collision détectée !");
+            // Sinon, fin de la partie
+            Console.WriteLine("Collision détectée, fin de la partie !");
             Exit();
+        }
+    }    
+    private void ActiverPouvoir(Pouvoirs pouvoir)
+    {
+        pouvoir.ActiverPouvoir();
+
+        switch (pouvoir.Type)
+        {
+            case PouvoirsType.Bouclier:
+                Console.WriteLine("Bouclier activé !");
+                break;
+
+            case PouvoirsType.Invincibilite:
+                Console.WriteLine("Invincibilité activée !");
+                break;
+
+            case PouvoirsType.DoubleScore:
+                Console.WriteLine("Double score activé !");
+                break;
+
+            default:
+                Console.WriteLine("Pouvoir inconnu activé !");
+                break;
         }
     }
     

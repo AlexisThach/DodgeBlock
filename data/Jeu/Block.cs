@@ -32,7 +32,7 @@ public class Block
         {
             int x = random.Next(0, 1000 - 50);  // Position aléatoire sur l'axe des abscisses 
             int size = 50;                    // Taille fixe des blocs
-            float speed = random.Next(200, 400);  // Vitesse aléatoire
+            float speed = random.Next(150, 200);  // Vitesse aléatoire
             blocks.Add(new Block(blockTexture, new Vector2(x, -size), size, speed));
         }
         return blocks;

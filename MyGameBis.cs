@@ -19,7 +19,8 @@ public class MyGameBis : Game
     private Random _random = new Random();
     private Texture2D _backgroundTexture;
     private Texture2D _blockTexture; 
-    private Texture2D _shipTexture; 
+    private Texture2D _shipTexture;
+    private Texture2D _shieldTexture;
     
     private int _score = 0;          
     private float _timer = 0f;       
@@ -61,6 +62,7 @@ public class MyGameBis : Game
         _backgroundTexture = Content.Load<Texture2D>("images/space");
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
+        _shieldTexture = Content.Load<Texture2D>("images/shield");
         //_font = Content.Load<SpriteFont>("fonts/Game_fonts"); 
         
         _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -92,10 +94,20 @@ public class MyGameBis : Game
                 break;
             }
         }
-
+        
         foreach (var pouvoir in _pouvoirs)
         {
             pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            // Si le pouvoir n'est pas actif, vérifier collision avec le joueur
+            if (!pouvoir.Actif && new Rectangle(pouvoir.PositionX, pouvoir.PositionY, 50, 50).Intersects(_ship.Rect))
+            {
+                if (pouvoir.Type == PouvoirsType.Bouclier)
+                {
+                    pouvoir.ActiverPouvoir();
+                    Console.WriteLine("Bouclier collecté !");
+                }
+            }
         }
         
         // Gestion des entrées pour quitter
@@ -131,6 +143,10 @@ public class MyGameBis : Game
             {
                 _spriteBatch.DrawString(_font, $"{pouvoir.Type}: {Math.Max(0, (int)pouvoir.Duree)}s", new Vector2(50, 100), Color.White);
             }
+        }
+        if (_pouvoirs.Exists(p => p.Type == PouvoirsType.Bouclier && p.Actif))
+        {
+            _spriteBatch.Draw(_shieldTexture, _ship.Rect, Color.Blue * 0.5f); // Aura bleue semi-transparente
         }
         
         // Dessiner le score

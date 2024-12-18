@@ -1,6 +1,7 @@
 ```plantuml
 
-class MyGame {
+package dodgeblock {
+    class MyGame {
     -_ship : Joueur
     -_blocks : ListeBlock
     -_pouvoirs : ListePouvoirs
@@ -16,9 +17,9 @@ class MyGame {
     +HandleCollision() : void
     -ActiverPouvoir() : void
     -ResetGame() : void
-}
-
-class Joueur {
+    }
+    
+    class Joueur {
     -_texture : Texture2D
     #_position : Vector2
     -_size : int
@@ -29,13 +30,13 @@ class Joueur {
     +Update(gameTime : GameTime) : void
     +Draw(spriteBatch : SpriteBatch) : void
     +ChangerApparence(nouvelleTexture: Texture2D) : void
-}
-
-class ListeBlock {
+    }
+    
+    class ListeBlock {
     _blocks : Block[]
-}
-
-class Block {
+    }
+    
+    class Block {
     -_texture : Texture2D
     -_position : Vector2
     -_size : int
@@ -46,13 +47,13 @@ class Block {
     +Update(gameTime : GameTime) : void
     +Draw(spriteBatch : SpriteBatch) : void 
     +ResetPosition() : void 
-}
-
-class ListePouvoirs {
-   _pouvoirs : Pouvoirs[]
-}
-
-class Pouvoirs {
+    }
+    
+    class ListePouvoirs {
+    _pouvoirs : Pouvoirs[]
+    }
+    
+    class Pouvoirs {
     +Type : PouvoirsType
     -_duree : float
     -_actif : bool
@@ -65,25 +66,26 @@ class Pouvoirs {
     +DesactiverPouvoir() : void 
     +MettreAJour(deltaTime : float, joueur : Joueur) : void
     +Draw(spriteBatch : SpriteBatch, texture : Texture2D) : void 
-}
-
-enum GameState{
+    }
+    
+    enum GameState{
     EnJeu
     GameOver
-}
-
-enum PouvoirsType {
+    }
+    
+    enum PouvoirsType {
     bouclier
     invincible
     doubleScore
-}
+    }
 
-MyGame *-- Joueur
-MyGame *-- ListeBlock
-MyGame *-- ListePouvoirs
-MyGame *-- GameState
-ListeBlock *-- Block
-ListePouvoirs *-- Pouvoirs
-Pouvoirs *-- PouvoirsType
+    MyGame *-- Joueur
+    MyGame *-- ListeBlock
+    MyGame *-- ListePouvoirs
+    MyGame *-- GameState
+    ListeBlock *-- Block
+    ListePouvoirs *-- Pouvoirs
+    Pouvoirs *-- PouvoirsType
+}
 
 ```

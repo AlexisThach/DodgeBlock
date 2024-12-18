@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <players xmlns="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/joueur.xsd">
+         xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/joueurs.xsd">
     <player>
         <nom>Swindar</nom>
         <posX>353.0</posX>

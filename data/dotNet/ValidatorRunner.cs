@@ -17,14 +17,16 @@ public class ValidatorRunner
         List<string> xmlFiles = new List<string>
         {
             "../xml/jeu.xml",
-            "../xml/joueur.xml",
+            "../xml/joueurs.xml",
+            "../xml/profil.xml",
             "../xml/sauvegarde.xml"
         };
 
         List<string> xsdFiles = new List<string>
         {
             "../xsd/jeu.xsd",
-            "../xsd/joueur.xsd",
+            "../xsd/joueurs.xsd",
+            "../xsd/profil.xsd",
             "../xsd/sauvegarde.xsd"
         };
 

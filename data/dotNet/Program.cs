@@ -11,13 +11,13 @@ public class Program
         Console.WriteLine("Bienvenue dans le validateur XML/XSD !");
         runner.Run();
         
-        DodgeBlockDOM dodgeBlockDOM = new DodgeBlockDOM("../xml/joueur.xml");
+        DodgeBlockDOM dodgeBlockDOM = new DodgeBlockDOM("../xml/joueurs.xml");
         Console.WriteLine("-------------------------- XMLReader -------------------------------");
         DodgeBlockXMLReader read = new DodgeBlockXMLReader();
-        read.AnalyseGlobal("../xml/joueur.xml"); 
+        read.AnalyseGlobal("../xml/joueurs.xml"); 
         Console.WriteLine("----------------- FIN D'ANALYSE GLOBALE DU FICHIER XML ------------------");
         
-        read.GetTexteFromElements("../xml/joueur.xml" , "nom", "player");
+        read.GetTexteFromElements("../xml/joueurs.xml" , "nom", "player");
 
         Console.WriteLine("------------------------- DOM --------------------------------");
         Console.WriteLine("Nombre de joueurs : " + dodgeBlockDOM.CountJoueur());
@@ -33,7 +33,7 @@ public class Program
         
         // lecture du fichier XML et conversion en objets
         Console.WriteLine("\n---------------- Désérialisation ----------------");
-        Players players = XmlSerializer.Deserialization<Players>("../xml/joueur.xml");
+        Players players = XmlSerializer.Deserialization<Players>("../xml/joueurs.xml");
         Console.WriteLine($"Nombre total de joueurs : {players.ListePlayer.Count}");
 
         foreach (var player in players.ListePlayer)
@@ -51,7 +51,7 @@ public class Program
 
         // Écriture des objets vers un nouveau fichier XML
         Console.WriteLine("\n---------------- Sérialisation ----------------");
-        Console.WriteLine("Sérialisation des données dans : " + "../xml/joueur_output.xml");
-        XmlSerializer.Serialization(players, "../xml/joueur_output.xml");
+        Console.WriteLine("Sérialisation des données dans : " + "../xml/joueurs_output.xml");
+        XmlSerializer.Serialization(players, "../xml/joueurs_output.xml");
     }
 }

@@ -5,7 +5,7 @@
     <xsl:output method="html" indent="yes"/>
 
     <!-- Paramètre pour identifier le joueur par son nom -->
-    <xsl:param name="nomJoueur" select="'Algred'"/>
+    <xsl:param name="nomJoueur" select="'Thyd'"/>
     
     <!-- Template principal -->
     <xsl:template match="/">
@@ -23,7 +23,7 @@
                         <th>Partie(s)</th>
                     </tr>
                     <!-- Application des templates pour le joueur spécifique -->
-                    <xsl:apply-templates select="//db:players/db:player[db:nom = $nomJoueur]"/>
+                    <xsl:apply-templates select="//db:player[db:nom = $nomJoueur]"/>
                 </table>
             </body>
         </html>

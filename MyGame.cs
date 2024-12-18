@@ -27,7 +27,6 @@ public class MyGame : Game
     private float _timer = 0f;       
     private SpriteFont _font;      
     
-    
     private GameState _currentState = GameState.EnJeu;
     public enum GameState
     {
@@ -55,7 +54,6 @@ public class MyGame : Game
     protected override void Initialize()
     { 
         base.Initialize();
-        
         
         _ship = new Joueur(_shipTexture, GetPositionDepart(), 50);
         _blocks = Block.InitialiseBlocks(_blockTexture); 
@@ -224,6 +222,7 @@ public class MyGame : Game
         {
             case PouvoirsType.Bouclier:
                 _ship.ChangerApparence(_shipWithShieldTexture);
+                Console.WriteLine("Bouclier activé !");
                 break;
 
             case PouvoirsType.Invincibilite:

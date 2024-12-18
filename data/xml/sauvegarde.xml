@@ -17,32 +17,32 @@
     </player>
 
     <etat-partie>
-        <obstacles>
-            <obstacle>
+        <blocks>
+            <block>
                 <position>
                     <X>7</X>
                     <Y>12</Y>
                 </position>
                 <speed>2</speed>
-            </obstacle>
-            <obstacle>
+            </block>
+            <block>
                 <position>
                     <X>6</X>
                     <Y>8</Y>
                 </position>
                 <speed>4</speed>
-            </obstacle>
-        </obstacles>
-        <powerUps>
-            <powerUp>
+            </block>
+        </blocks>
+        <pouvoirs>
+            <pouvoir>
                 <type>Shield</type>
                 <duree>10</duree>
-            </powerUp>
-            <powerUp>
+            </pouvoir>
+            <pouvoir>
                 <type>DoubleScore</type>
                 <duree>5</duree>
-            </powerUp>
-        </powerUps>
+            </pouvoir>
+        </pouvoirs>
     </etat-partie>
 
 </sauvegarde>

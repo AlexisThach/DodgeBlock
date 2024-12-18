@@ -17,6 +17,7 @@ public class Joueur
     private float _speedAcc = 0.2f; 
     private float _speedDec = 0.1f; 
     
+    public Joueur(){}
     public Joueur(Texture2D texture, Vector2 position, int size)
     {
         Texture = texture;
@@ -25,6 +26,7 @@ public class Joueur
     }
     
     // Propriétés pour l'accélération et la décélération, avec des limites
+    
     public float SpeedAcc
     {
         get => _speedAcc;

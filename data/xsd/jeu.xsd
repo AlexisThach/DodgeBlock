@@ -24,10 +24,10 @@
                         <xs:attribute name="background-color" type="xs:string" use="required"/>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="listeObstacles">
+                <xs:element name="listeBlocks">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="obstacle" maxOccurs="unbounded">
+                            <xs:element name="block" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="positionX" type="xs:int"/>
@@ -39,10 +39,10 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="listePowerUps">
+                <xs:element name="listePouvoirs">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="powerUp" maxOccurs="unbounded">
+                            <xs:element name="pouvoir" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="type" type="xs:string"/>

@@ -17,7 +17,8 @@
             <xs:element name="nom" type="xs:string"/>
             <xs:element name="posX" type="xs:double"/>
             <xs:element name="posY" type="xs:double"/>
-            <xs:element name="speed" type="db:Speed"/>
+            <xs:element name="speedX" type="db:Speed"/>
+            <xs:element name="speedY" type="db:Speed"/>
             <xs:element name="parties" type="db:Parties"/>
         </xs:sequence>
     </xs:complexType>

@@ -6,7 +6,8 @@
         <nom>Swindar</nom>
         <posX>353.0</posX>
         <posY>245.0</posY>
-        <speed>3.0</speed>
+        <speedX>3.0</speedX>
+        <speedY>4.0</speedY>
         <parties>
             <partie date="2024-12-05">
                 <score>180</score>
@@ -26,7 +27,8 @@
         <nom>Thyd</nom>
         <posX>536.0</posX>
         <posY>242.0</posY>
-        <speed>3.0</speed>
+        <speedX>3.0</speedX>
+        <speedY>4.0</speedY>
         <parties>
             <partie date="2024-12-05">
                 <score>300</score>
@@ -43,7 +45,8 @@
         <nom>Algred</nom>
         <posX>682.0</posX>
         <posY>423.0</posY>
-        <speed>3.0</speed>
+        <speedX>3.0</speedX>
+        <speedY>4.0</speedY>
         <parties>
             <partie date="2024-12-05">
                 <score>340</score>
@@ -60,7 +63,8 @@
         <nom>Thierno</nom>
         <posX>532.0</posX>
         <posY>563.0</posY>
-        <speed>3.0</speed>
+        <speedX>3.0</speedX>
+        <speedY>4.0</speedY>
         <parties>
             <partie date="2024-12-05">
                 <score>240</score>
@@ -77,7 +81,8 @@
         <nom>Bobo</nom>
         <posX>231.0</posX>
         <posY>456.0</posY>
-        <speed>3.0</speed>
+        <speedX>3.0</speedX>
+        <speedY>4.0</speedY>
         <parties>
             <partie date="2024-12-05">
                 <score>100</score>

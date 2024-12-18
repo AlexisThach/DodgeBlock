@@ -69,10 +69,10 @@
             <partie date="2024-12-05">
                 <score>240</score>
             </partie>
-            <partie date="2024-12-08">
+            <partie date="2024-12-10">
                 <score>220</score>
             </partie>
-            <partie date="2024-12-08">
+            <partie date="2024-12-10">
                 <score>140</score>
             </partie>
         </parties>
@@ -84,13 +84,13 @@
         <speedX>3.0</speedX>
         <speedY>4.0</speedY>
         <parties>
-            <partie date="2024-12-05">
+            <partie date="2024-12-13">
                 <score>100</score>
             </partie>
-            <partie date="2024-12-08">
+            <partie date="2024-12-13">
                 <score>110</score>
             </partie>
-            <partie date="2024-12-08">
+            <partie date="2024-12-16">
                 <score>140</score>
             </partie>
         </parties>

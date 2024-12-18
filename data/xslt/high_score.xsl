@@ -7,11 +7,11 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>Leaderboard - Top 10 Best Games</title>
+                <title>Dodge BLock - Top 10 Best Games</title>
                 <link rel="stylesheet" type="text/css" href="../css/pageJoueurPartie.css" />
             </head>
             <body>
-                <h1 class="title">Leaderboard - Top 10 Best Games</h1>
+                <h1 class="title">Dodge Block - Top 10 Best Games</h1>
                 <table border="1">
                     <thead>
                         <tr>

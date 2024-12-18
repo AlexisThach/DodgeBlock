@@ -4,29 +4,32 @@
                 xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock">
     <xsl:output method="html" indent="yes"/>
 
+    <!-- Paramètre pour identifier le joueur par son nom -->
+    <xsl:param name="nomJoueur" select="'Algred'"/>
+    
     <!-- Template principal -->
     <xsl:template match="/">
         <html>
             <head>
-                <title>Profil <xsl:value-of select="//db:player/db:nom"/></title>
+                <title>Profil de <xsl:value-of select="//db:player[db:nom = $nomJoueur]/db:nom"/></title>
                 <link rel="stylesheet" type="text/css" href="../css/pageJoueurPartie.css" />
             </head>
             <body>
                 <h1 class="title">
-                    Profil de <xsl:value-of select="//db:player/db:nom"/>
+                    Profil de <xsl:value-of select="//db:player[db:nom = $nomJoueur]/db:nom"/>
                 </h1>
                 <table border="1">
                     <tr>
                         <th>Partie(s)</th>
                     </tr>
-                    <!-- Application des templates pour chaque joueur -->
-                    <xsl:apply-templates select="//db:players/db:player"/>
+                    <!-- Application des templates pour le joueur spécifique -->
+                    <xsl:apply-templates select="//db:players/db:player[db:nom = $nomJoueur]"/>
                 </table>
             </body>
         </html>
     </xsl:template>
 
-    <!-- Template pour chaque joueur -->
+    <!-- Template pour le joueur -->
     <xsl:template match="db:player">
         <tr>
             <!-- Affichage des parties -->

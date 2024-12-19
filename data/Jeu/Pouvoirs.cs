@@ -71,14 +71,6 @@ public class Pouvoirs
         }
     }
     
-    public void Draw(SpriteBatch spriteBatch, Texture2D texture)
-    {
-        if (!Actif)
-        {
-            spriteBatch.Draw(texture, new Rectangle(PositionX, PositionY, 50, 50), Color.White);
-        }
-    }
-    
 }
 
 

@@ -19,13 +19,15 @@ public class MyGameBis : Game
     private Random _random = new Random();
     private Texture2D _backgroundTexture;
     private Texture2D _blockTexture; 
-    private Texture2D _shipTexture;
-    private Texture2D _shieldTexture;
+    private Texture2D _shipTexture; 
     
     private int _score = 0;          
     private float _timer = 0f;       
     private SpriteFont _font;      
     
+    
+    private GameState _currentState = GameState.EnJeu;
+
     public MyGameBis()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -62,55 +64,62 @@ public class MyGameBis : Game
         _backgroundTexture = Content.Load<Texture2D>("images/space");
         _shipTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
-        _shieldTexture = Content.Load<Texture2D>("images/shield");
-        _font = Content.Load<SpriteFont>("fonts/Game_fonts");
+        _font = Content.Load<SpriteFont>("fonts/Game_fonts"); 
+        
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
     }
 
     protected override void Update(GameTime gameTime)
     {
-        // Gestion du temps
-        _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if(_timer >=1.0f)
+        // Si le jeu est en GameOver, gérer les entrées pour redémarrer ou quitter
+        if (_currentState == GameState.GameOver)
         {
-            _score+=10;
+            var keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.R)) // Rejouer
+            {
+                ResetGame();
+            }
+            else if (keyboardState.IsKeyDown(Keys.Escape)) // Quitter le jeu
+            {
+                Exit();
+            }
+
+            return; // Ne pas mettre à jour le reste du jeu
+        }
+
+        // Gestion du temps et score
+        _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if (_timer >= 1.0f)
+        {
+            _score += 10;
             _timer -= 1.0f;
         }
-        
+
         // Mise à jour du joueur
         _ship.Update(gameTime);
-        
-        // Mise à jour des blocs et vérification des collisions
+
+        // Mise à jour des blocs et collisions
         foreach (var block in _blocks)
         {
             block.Update(gameTime);
 
-            // Collision avec un bloc
             if (_ship.Rect.Intersects(block.Rect))
             {
-                HandleCollision(); // Gérer la collision
+                HandleCollision();
                 break;
             }
         }
-        
+
+        // Mise à jour des pouvoirs
         foreach (var pouvoir in _pouvoirs)
         {
             pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds);
-
-            // Si le pouvoir n'est pas actif, vérifier collision avec le joueur
-            if (!pouvoir.Actif && new Rectangle(pouvoir.PositionX, pouvoir.PositionY, 50, 50).Intersects(_ship.Rect))
-            {
-                if (pouvoir.Type == PouvoirsType.Bouclier)
-                {
-                    pouvoir.ActiverPouvoir();
-                    Console.WriteLine("Bouclier collecté !");
-                }
-            }
         }
-        
+
         // Gestion des entrées pour quitter
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
             Exit();
         }
@@ -118,61 +127,92 @@ public class MyGameBis : Game
         base.Update(gameTime);
     }
 
+
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-        _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White); 
-        
-        // Dessiner le joueur
-        _ship.Draw(_spriteBatch);
-        
+        _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
 
-        // Dessiner les blocs
-        foreach (var block in _blocks)
+        if (_currentState == GameState.EnJeu)
         {
-            block.Draw(_spriteBatch);
-        }
-        
-        // Dessiner les pouvoirs actifs
-        foreach (var pouvoir in _pouvoirs)
-        {
-            if (pouvoir.Actif)
+            // Dessiner le joueur, blocs et score
+            _ship.Draw(_spriteBatch);
+            foreach (var block in _blocks)
             {
-                _spriteBatch.DrawString(_font, $"{pouvoir.Type}: {Math.Max(0, (int)pouvoir.Duree)}s", new Vector2(50, 100), Color.White);
+                block.Draw(_spriteBatch);
             }
+            _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
         }
-        if (_pouvoirs.Exists(p => p.Type == PouvoirsType.Bouclier && p.Actif))
+        else if (_currentState == GameState.GameOver)
         {
-            _spriteBatch.Draw(_shieldTexture, _ship.Rect, Color.Blue * 0.5f); // Aura bleue semi-transparente
+            // Définir les dimensions et la position du cadre
+            int cadreLargeur = 400;
+            int cadreHauteur = 200;
+            int cadreX = (_graphics.PreferredBackBufferWidth - cadreLargeur) / 2;
+            int cadreY = (_graphics.PreferredBackBufferHeight - cadreHauteur) / 2;
+
+            // Dessiner un fond semi-transparent (cadre)
+            Texture2D cadreTexture = new Texture2D(GraphicsDevice, 1, 1);
+            cadreTexture.SetData(new[] { Color.Black * 0.7f }); // Noir semi-transparent
+            _spriteBatch.Draw(cadreTexture, new Rectangle(cadreX, cadreY, cadreLargeur, cadreHauteur), Color.White);
+
+            // Afficher le texte dans le cadre
+            Vector2 textPos1 = new Vector2(cadreX + 50, cadreY + 50); // Position du premier texte
+            Vector2 textPos2 = new Vector2(cadreX + 50, cadreY + 100); // Position du deuxième texte
+            Vector2 textPos3 = new Vector2(cadreX + 50, cadreY + 130); // Position du troisième texte
+
+            _spriteBatch.DrawString(_font, "GAME OVER", new Vector2(cadreX + 120, cadreY + 20), Color.Red);
+            _spriteBatch.DrawString(_font, "Appuyez sur R pour rejouer", textPos2, Color.White);
+            _spriteBatch.DrawString(_font, "Appuyez sur Echap pour quitter", textPos3, Color.White);
         }
-        
-        // Dessiner le score
-        _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
-        
+
+
         _spriteBatch.End();
+
         base.Draw(gameTime);
     }
+
     public void HandleCollision()
     {
-        // Si le joueur a un pouvoir Bouclier actif, on ne fait rien à la collision
+        // Vérifier si le joueur a un pouvoir Bouclier actif
         if (_pouvoirs.Exists(p => p.Type == PouvoirsType.Bouclier && p.Actif))
         {
-            // On désactive le pouvoir Bouclier
             var bouclier = _pouvoirs.Find(p => p.Type == PouvoirsType.Bouclier && p.Actif);
-            if (bouclier != null)
-            {
-                bouclier.DesactiverPouvoir();
-                Console.WriteLine("Collision ignorée grâce au Bouclier !");
-            }
+            bouclier?.DesactiverPouvoir();
+            Console.WriteLine("Collision ignorée grâce au Bouclier !");
         }
         else
         {
-            // si aucun bouclier actif, le jeu se termine
-            Console.WriteLine("Collision détectée !");
-            Exit();
+            Console.WriteLine("Game Over !");
+            _currentState = GameState.GameOver; // Passer à l'état GameOver
         }
     }
+    private void ResetGame()
+    {
+        _currentState = GameState.EnJeu; // Revenir en mode EnJeu
+        _score = 0;
+        _timer = 0f;
+
+        // Réinitialiser la position du joueur
+        _ship = new Joueur(_shipTexture, GetPositionDepart(), 50);
+
+        // Réinitialiser les blocs
+        _blocks = Block.InitialiseBlocks(_blockTexture);
+
+        // Réinitialiser les pouvoirs
+        _pouvoirs = new List<Pouvoirs>();
+        _pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 60.0f));
+    }
+
+
+    
+    public enum GameState
+    {
+        EnJeu,
+        GameOver
+    }
+
     
 }

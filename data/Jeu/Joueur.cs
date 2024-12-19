@@ -82,18 +82,27 @@ public class Joueur
         _position.X += _speed.X;
         _position.Y += _speed.Y;
         
-        // Gestion de la décélération automatique (ralentir progressivement)
-        if (!Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.Down))
+        // Décélérer rapidement quand aucune touche n'est pressée
+        if (!Keyboard.GetState().IsKeyDown(Keys.Up) && _speed.Y < 0)
         {
-            _speed.Y -= Math.Sign(_speed.Y) * SpeedDec;
-            if (Math.Abs(_speed.Y) < 0.01f) _speed.Y = 0; // Arrêt complet si la vitesse est faible
+            _speed.Y += SpeedDec; // Décélérer vers le haut
+        }
+        if (!Keyboard.GetState().IsKeyDown(Keys.Down) && _speed.Y > 0)
+        {
+            _speed.Y -= SpeedDec; // Décélérer vers le bas
+        }
+        if (!Keyboard.GetState().IsKeyDown(Keys.Left) && _speed.X < 0)
+        {
+            _speed.X += SpeedDec; // Décélérer vers la gauche
+        }
+        if (!Keyboard.GetState().IsKeyDown(Keys.Right) && _speed.X > 0)
+        {
+            _speed.X -= SpeedDec; // Décélérer vers la droite
         }
 
-        if (!Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.Right))
-        {
-            _speed.X -= Math.Sign(_speed.X) * SpeedDec;
-            if (Math.Abs(_speed.X) < 0.01f) _speed.X = 0; // Arrêt complet si la vitesse est faible
-        }
+        // Limiter la vitesse à zéro si elle est trop proche de zéro (amortir les petits mouvements)
+        if (Math.Abs(_speed.X) < 0.01f) _speed.X = 0;
+        if (Math.Abs(_speed.Y) < 0.01f) _speed.Y = 0;
         
         // Gestion des bordures de l'écran
         if (_position.X < 0)
@@ -120,9 +129,6 @@ public class Joueur
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        // Débug hitbox du joueur
-        spriteBatch.Draw(_texture, Rect, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
-
         var origin = new Vector2(_texture.Width - _size, _texture.Height - _size);
         spriteBatch.Draw(
             _texture,  // Texture2D

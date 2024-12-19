@@ -28,24 +28,16 @@ public class Block
     public static List<Block> InitialiseBlocks(Texture2D blockTexture)
     {
         var blocks = new List<Block>();
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i <10; i++)
         {
             int x = random.Next(0, 1000 - 50);  // Position aléatoire sur l'axe des abscisses 
             int size = 50;                    // Taille fixe des blocs
-            float speed = random.Next(130, 200);  // Vitesse aléatoire
+            float speed = random.Next(200, 250);  // Vitesse aléatoire
             blocks.Add(new Block(blockTexture, new Vector2(x, -size), size, speed));
         }
         return blocks;
     }
-
-    public void LoadContent(ContentManager content)
-    {
-        if (_texture == null)
-        {
-            _texture = content.Load<Texture2D>("asteroidV2");
-        }
-    }
-
+    
     public void Update(GameTime gameTime)
     {
         // Faire tomber le bloc

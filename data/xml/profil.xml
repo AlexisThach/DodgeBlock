@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<player xmlns="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/profil.xsd">
+    
+    <nom>Thyd</nom>
+    <parties>
+        <partie date="2024-12-05">
+            <score>300</score>
+        </partie>
+        <partie date="2024-12-08">
+            <score>210</score>
+        </partie>
+        <partie date="2024-12-08">
+            <score>140</score>
+        </partie>
+    </parties>
+</player>

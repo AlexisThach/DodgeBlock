@@ -4,20 +4,12 @@
            xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
            elementFormDefault="qualified">
 
-    <xs:element name="players">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="player" type="db:Player" maxOccurs="unbounded"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <!-- Élément racine "player" pour le profil du joueur -->
+    <xs:element name="player" type="db:Player"/>
 
     <xs:complexType name="Player">
         <xs:sequence>
             <xs:element name="nom" type="xs:string"/>
-            <xs:element name="posX" type="xs:double"/>
-            <xs:element name="posY" type="xs:double"/>
-            <xs:element name="speed" type="db:Speed"/>
             <xs:element name="parties" type="db:Parties"/>
         </xs:sequence>
     </xs:complexType>
@@ -43,5 +35,5 @@
             <xs:minInclusive value="0"/>
         </xs:restriction>
     </xs:simpleType>
-
+    
 </xs:schema>

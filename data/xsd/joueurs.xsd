@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
+           xmlns:db="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock"
+           elementFormDefault="qualified">
+
+    <!-- Élément racine "players" pour les joueurs -->
+    <xs:element name="players">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="player" type="db:Player" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Élément racine "player" pour le profil du joueur -->
+    <xs:element name="player" type="db:Player"/>
+
+    <xs:complexType name="Player">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="posX" type="xs:double"/>
+            <xs:element name="posY" type="xs:double"/>
+            <xs:element name="speedX" type="db:Speed"/>
+            <xs:element name="speedY" type="db:Speed"/>
+            <xs:element name="parties" type="db:Parties"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Définition du type complexe "Parties" -->
+    <xs:complexType name="Parties">
+        <xs:sequence>
+            <!-- Liste de parties -->
+            <xs:element name="partie" type="db:Partie" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Définition du type complexe "Partie" -->
+    <xs:complexType name="Partie">
+        <xs:sequence>
+            <xs:element name="score" type="xs:int" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="date" type="xs:date"/>
+    </xs:complexType>
+
+    <xs:simpleType name="Speed">
+        <xs:restriction base="xs:double">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

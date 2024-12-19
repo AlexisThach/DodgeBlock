@@ -54,6 +54,7 @@
                     <tbody>
                         <!-- Parcours de tous les joueurs et parties -->
                         <xsl:for-each select="db:player/db:parties/db:partie">
+                            <xsl:sort select="@date" data-type="text" order="ascending" />
                             <tr>
                                 <td>
                                     <xsl:value-of select="ancestor::db:player/db:nom" />

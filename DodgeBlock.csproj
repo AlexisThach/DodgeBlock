@@ -17,7 +17,7 @@
         <None Update="data\xml\sauvegarde.xml">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="data\xml\joueur.xml">
+        <None Update="data\xml\joueurs.xml">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="data\xml\jeu.xml">

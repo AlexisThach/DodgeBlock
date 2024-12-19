@@ -11,12 +11,13 @@ public class Program
         Console.WriteLine("Bienvenue dans le validateur XML/XSD !");
         runner.Run();
         
-        DodgeBlockDOM dodgeBlockDOM = new DodgeBlockDOM("../xml/joueur.xml");
-        Console.WriteLine("-------------------- XMLReader -------------------------------");
+        DodgeBlockDOM dodgeBlockDOM = new DodgeBlockDOM("../xml/joueurs.xml");
+        Console.WriteLine("-------------------------- XMLReader -------------------------------");
         DodgeBlockXMLReader read = new DodgeBlockXMLReader();
-        //read.AnalyseGlobal("../xml/joueur.xml"); 
-        Console.WriteLine("--------------------------------------------------------------");
-        read.GetTexteFromElements("../xml/joueur.xml" , "nom", "player");
+        read.AnalyseGlobal("../xml/joueurs.xml"); 
+        Console.WriteLine("----------------- FIN D'ANALYSE GLOBALE DU FICHIER XML ------------------");
+        
+        read.GetTexteFromElements("../xml/joueurs.xml" , "nom", "player");
 
         Console.WriteLine("------------------------- DOM --------------------------------");
         Console.WriteLine("Nombre de joueurs : " + dodgeBlockDOM.CountJoueur());
@@ -29,5 +30,28 @@ public class Program
         {
             Console.WriteLine($"Joueur : {score.Key}, Meilleur Score : {score.Value}");
         }
+        
+        // lecture du fichier XML et conversion en objets
+        Console.WriteLine("\n---------------- Désérialisation ----------------");
+        Players players = XmlSerializer.Deserialization<Players>("../xml/joueurs.xml");
+        Console.WriteLine($"Nombre total de joueurs : {players.ListePlayer.Count}");
+
+        foreach (var player in players.ListePlayer)
+        {
+            Console.WriteLine($"\nJoueur : {player.Nom}");
+            Console.WriteLine($"Position : ({player.PosX}, {player.PosY})");
+            Console.WriteLine($"Vitesse : ({player.SpeedX}, {player.SpeedY})");
+
+            Console.WriteLine("Scores des parties :");
+            foreach (var partie in player.ListePartie)
+            {
+                Console.WriteLine($"  Date : {partie.Date}, Score : {partie.Score}");
+            }
+        }
+
+        // Écriture des objets vers un nouveau fichier XML
+        Console.WriteLine("\n---------------- Sérialisation ----------------");
+        Console.WriteLine("Sérialisation des données dans : " + "../xml/joueurs_output.xml");
+        XmlSerializer.Serialization(players, "../xml/joueurs_output.xml");
     }
 }

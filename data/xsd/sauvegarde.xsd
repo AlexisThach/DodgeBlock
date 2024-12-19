@@ -34,8 +34,8 @@
     <!-- Section GameState -->
     <xs:complexType name="EtatPartie">
         <xs:sequence>
-            <xs:element name="obstacles" type="sa:ObstacleListType" />
-            <xs:element name="powerUps" type="sa:PowerUpListType" />
+            <xs:element name="blocks" type="sa:ListeBlocks" />
+            <xs:element name="pouvoirs" type="sa:ListePouvoirs" />
         </xs:sequence>
     </xs:complexType>
 
@@ -47,13 +47,13 @@
     </xs:complexType>
 
     <!-- Liste d'Obstacles -->
-    <xs:complexType name="ObstacleListType">
+    <xs:complexType name="ListeBlocks">
         <xs:sequence>
-            <xs:element name="obstacle" type="sa:ObstacleType" maxOccurs="unbounded" />
+            <xs:element name="block" type="sa:BlockType" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="ObstacleType">
+    <xs:complexType name="BlockType">
         <xs:sequence>
             <xs:element name="position" type="sa:Position" />
             <xs:element name="speed" type="sa:PositiveInteger" />
@@ -61,13 +61,13 @@
     </xs:complexType>
 
     <!-- Liste de PowerUps -->
-    <xs:complexType name="PowerUpListType">
+    <xs:complexType name="ListePouvoirs">
         <xs:sequence>
-            <xs:element name="powerUp" type="sa:PowerUpType" maxOccurs="unbounded" />
+            <xs:element name="pouvoir" type="sa:PouvoirType" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="PowerUpType">
+    <xs:complexType name="PouvoirType">
         <xs:sequence>
             <xs:element name="type" type="xs:string" />
             <xs:element name="duree" type="sa:PositiveInteger" />

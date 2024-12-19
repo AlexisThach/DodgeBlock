@@ -2,7 +2,7 @@
 
 package dodgeblock {
     class MyGame {
-    -_ship : Joueur
+    -_joueur : Joueur
     -_blocks : ListeBlock
     -_pouvoirs : ListePouvoirs
     -_score : int
@@ -63,7 +63,7 @@ package dodgeblock {
     +GenererPositionAleatoire(largeurMax : int, hauteurMax : int) : void
     +ActiverPouvoir() : void
     +DesactiverPouvoir() : void 
-    +MettreAJour(deltaTime : float, joueur : Joueur) : void
+    +MettreAJour(deltaTime : float, joueur : Joueur, baseTexture : Texture2D) : void
     +Draw(spriteBatch : SpriteBatch, texture : Texture2D) : void 
     }
     

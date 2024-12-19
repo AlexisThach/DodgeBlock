@@ -82,7 +82,7 @@ public class Pouvoirs
     }
 
     // Mettre à jour le temps restant
-    public void MettreAJour(float deltaTime, Joueur joueur)
+    public void MettreAJour(float deltaTime, Joueur joueur, Texture2D baseTexture)
     {
         if (Actif)
         {
@@ -90,6 +90,11 @@ public class Pouvoirs
             if (tempsRestant <= 0)
             {
                 DesactiverPouvoir();
+                
+                if(Type == PouvoirsType.Bouclier)
+                {
+                    joueur.ChangerApparence(baseTexture);
+                }
             }
         }
     }

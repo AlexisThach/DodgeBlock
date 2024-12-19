@@ -12,16 +12,16 @@ public class MyGame : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    private Joueur _ship; 
+    private Joueur _joueur; 
     private List<Block> _blocks; 
     private List<Pouvoirs> _pouvoirs; 
 
     private Random _random = new Random();
     private Texture2D _backgroundTexture;
     private Texture2D _blockTexture; 
-    private Texture2D _shipTexture;
+    private Texture2D _joueurTexture;
     private Texture2D _shieldTexture;
-    private Texture2D _shipWithShieldTexture;
+    private Texture2D _joueurWithShieldTexture;
     private Texture2D _doubleScoreTexture;
     
     private int _score = 0;   
@@ -57,14 +57,12 @@ public class MyGame : Game
     { 
         base.Initialize();
         
-        _ship = new Joueur(_shipTexture, GetPositionDepart(), 50);
+        _joueur = new Joueur(_joueurTexture, GetPositionDepart(), 50);
         _blocks = Block.InitialiseBlocks(_blockTexture); 
         _pouvoirs = new List<Pouvoirs>();
-        //_pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 60.0f));
-        //_pouvoirs.Add(new Pouvoirs(PouvoirsType.Invincibilite, 10.0f));
-        //_pouvoirs.Add(new Pouvoirs(PouvoirsType.DoubleScore, 15.0f));
+        
         // Création des pouvoirs
-        var bouclier = new Pouvoirs(PouvoirsType.Bouclier, 5.0f);
+        var bouclier = new Pouvoirs(PouvoirsType.Bouclier, 10.0f);
         bouclier.GenererPositionAleatoire(950, 750, _pouvoirs);
         _pouvoirs.Add(bouclier);
 
@@ -79,13 +77,13 @@ public class MyGame : Game
     {
         // Charger les textures  
         _backgroundTexture = Content.Load<Texture2D>("images/space");
-        _shipTexture = Content.Load<Texture2D>("images/ship");
+        _joueurTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
         _shieldTexture = Content.Load<Texture2D>("images/shield");
-        _shipWithShieldTexture = Content.Load<Texture2D>("images/ship_with_shield");
+        _joueurWithShieldTexture = Content.Load<Texture2D>("images/ship_with_shield");
         _doubleScoreTexture = Content.Load<Texture2D>("images/double_score");
         
-        _font = Content.Load<SpriteFont>("fonts/Game_fonts"); 
+        //_font = Content.Load<SpriteFont>("fonts/Game_fonts"); 
         
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -93,8 +91,6 @@ public class MyGame : Game
 
     protected override void Update(GameTime gameTime)
     {
-        // Mise à jour du joueur
-        _ship.Update(gameTime);
         
         // Si le jeu est en GameOver, gérer les entrées pour redémarrer ou quitter
         if (_currentState == GameState.GameOver)
@@ -113,6 +109,9 @@ public class MyGame : Game
             return; // Ne pas mettre à jour le reste du jeu
         }
 
+        // Mise à jour du joueur
+        _joueur.Update(gameTime);
+        
         // Gestion du temps et score
         _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (_timer >= 1.0f)
@@ -134,11 +133,17 @@ public class MyGame : Game
         {
             block.Update(gameTime);
 
-            if (_ship.Rect.Intersects(block.Rect))
+            if (_joueur.Rect.Intersects(block.Rect))
             {
                 HandleCollision();
                 break;
             }
+        }
+        
+        // Mise à jour des pouvoirs
+        foreach (var pouvoir in _pouvoirs)
+        {
+            pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds, _joueur, _joueurTexture);
         }
 
         // Vérifier les collisions entre le joueur et les pouvoirs
@@ -146,7 +151,7 @@ public class MyGame : Game
         {
             var pouvoir = _pouvoirs[i];
     
-            if (_ship.Rect.Intersects(pouvoir.Rect))
+            if (_joueur.Rect.Intersects(pouvoir.Rect))
             {
                 ActiverPouvoir(pouvoir); 
                 _pouvoirs.RemoveAt(i); 
@@ -188,7 +193,7 @@ public class MyGame : Game
                 }
             }
             // Dessiner le joueur, blocs et score
-            _ship.Draw(_spriteBatch);
+            _joueur.Draw(_spriteBatch);
             foreach (var block in _blocks)
             {
                 block.Draw(_spriteBatch);
@@ -235,7 +240,7 @@ public class MyGame : Game
             bouclier.DesactiverPouvoir();
             _pouvoirs.Remove(bouclier);
             Console.WriteLine("Collision ignorée grâce au Bouclier !");
-            _ship.ChangerApparence(_shipTexture);
+            _joueur.ChangerApparence(_joueurTexture);
             return;
         }
         
@@ -249,8 +254,7 @@ public class MyGame : Game
         switch (pouvoir.Type)
         {
             case PouvoirsType.Bouclier:
-                _ship.ChangerApparence(_shipWithShieldTexture);
-                Console.WriteLine("Bouclier activé !");
+                _joueur.ChangerApparence(_joueurWithShieldTexture);
                 break;
 
             case PouvoirsType.Invincibilite:
@@ -274,7 +278,7 @@ public class MyGame : Game
         _timer = 0f;
 
         // Réinitialiser la position du joueur
-        _ship = new Joueur(_shipTexture, GetPositionDepart(), 50);
+        _joueur = new Joueur(_joueurTexture, GetPositionDepart(), 50);
 
         // Réinitialiser les blocs
         _blocks = Block.InitialiseBlocks(_blockTexture);

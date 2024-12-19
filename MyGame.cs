@@ -93,43 +93,41 @@ public class MyGame : Game
 
     protected override void Update(GameTime gameTime)
     {
-        // Mise à jour du joueur
         _ship.Update(gameTime);
-        
-        // Si le jeu est en GameOver, gérer les entrées pour redémarrer ou quitter
+
         if (_currentState == GameState.GameOver)
         {
             var keyboardState = Keyboard.GetState();
 
-            if (keyboardState.IsKeyDown(Keys.R)) // Rejouer
+            if (keyboardState.IsKeyDown(Keys.R))
             {
                 ResetGame();
             }
-            else if (keyboardState.IsKeyDown(Keys.Escape)) // Quitter le jeu
+            else if (keyboardState.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            return; // Ne pas mettre à jour le reste du jeu
+            return;
         }
 
-        // Gestion du temps et score
         _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (_timer >= 1.0f)
         {
-            //_score += 10;
-            _score += (int)(10 * _scoreMultiplier); // Multiplie le score
+            _score += (int)(10 * _scoreMultiplier); // Use the multiplier
             _timer -= 1.0f;
         }
-        
-        // Réinitialiser le multiplicateur si le Double Score expire
-        if (_scoreMultiplier > 1.0f && _pouvoirs.Find(p => p.Type == PouvoirsType.DoubleScore && !p.Actif) == null)
+
+        foreach (var pouvoir in _pouvoirs)
         {
-            _scoreMultiplier = 1.0f;
+            pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds, _ship);
         }
 
+        if (_scoreMultiplier > 1.0f && !_pouvoirs.Exists(p => p.Type == PouvoirsType.DoubleScore && p.Actif))
+        {
+            _scoreMultiplier = 1.0f; // Reset the multiplier
+        }
 
-        // Mise à jour des blocs et collisions
         foreach (var block in _blocks)
         {
             block.Update(gameTime);
@@ -141,20 +139,18 @@ public class MyGame : Game
             }
         }
 
-        // Vérifier les collisions entre le joueur et les pouvoirs
         for (int i = 0; i < _pouvoirs.Count; i++)
         {
             var pouvoir = _pouvoirs[i];
-    
+
             if (_ship.Rect.Intersects(pouvoir.Rect))
             {
-                ActiverPouvoir(pouvoir); 
-                _pouvoirs.RemoveAt(i); 
-                break; 
+                ActiverPouvoir(pouvoir);
+                _pouvoirs.RemoveAt(i);
+                break;
             }
         }
 
-        // Gestion des entrées pour quitter (en cours de jeu)
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
             Exit();
@@ -162,6 +158,7 @@ public class MyGame : Game
 
         base.Update(gameTime);
     }
+
 
 
     protected override void Draw(GameTime gameTime)
@@ -253,12 +250,8 @@ public class MyGame : Game
                 Console.WriteLine("Bouclier activé !");
                 break;
 
-            case PouvoirsType.Invincibilite:
-                _scoreMultiplier = 2;
-                Console.WriteLine("Invincibilité activée !");
-                break;
-
             case PouvoirsType.DoubleScore:
+                _scoreMultiplier = 2.0f; 
                 Console.WriteLine("Double score activé !");
                 break;
 
@@ -267,6 +260,8 @@ public class MyGame : Game
                 break;
         }
     }
+
+
     private void ResetGame()
     {
         _currentState = GameState.EnJeu;

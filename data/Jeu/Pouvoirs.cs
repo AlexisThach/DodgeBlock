@@ -90,9 +90,11 @@ public class Pouvoirs
             if (tempsRestant <= 0)
             {
                 DesactiverPouvoir();
+                Console.WriteLine($"{Type} désactivé pour le joueur.");
             }
         }
     }
+
     
     public void Draw(SpriteBatch spriteBatch, Texture2D texture)
     {

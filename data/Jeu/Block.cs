@@ -37,15 +37,7 @@ public class Block
         }
         return blocks;
     }
-
-    public void LoadContent(ContentManager content)
-    {
-        if (_texture == null)
-        {
-            _texture = content.Load<Texture2D>("asteroidV2");
-        }
-    }
-
+    
     public void Update(GameTime gameTime)
     {
         // Faire tomber le bloc

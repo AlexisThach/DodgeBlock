@@ -4,10 +4,6 @@
         xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/dodgeblock ../xsd/profil.xsd">
     
     <nom>Thyd</nom>
-    <posX>536.0</posX>
-    <posY>242.0</posY>
-    <speedX>3.0</speedX>
-    <speedY>4.0</speedY>
     <parties>
         <partie date="2024-12-05">
             <score>300</score>

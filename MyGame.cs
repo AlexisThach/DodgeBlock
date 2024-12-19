@@ -22,8 +22,10 @@ public class MyGame : Game
     private Texture2D _shipTexture;
     private Texture2D _shieldTexture;
     private Texture2D _shipWithShieldTexture;
+    private Texture2D _doubleScoreTexture;
     
-    private int _score = 0;          
+    private int _score = 0;   
+    private float _scoreMultiplier = 1.0f;
     private float _timer = 0f;       
     private SpriteFont _font;      
     
@@ -58,9 +60,19 @@ public class MyGame : Game
         _ship = new Joueur(_shipTexture, GetPositionDepart(), 50);
         _blocks = Block.InitialiseBlocks(_blockTexture); 
         _pouvoirs = new List<Pouvoirs>();
-        _pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 60.0f));
+        //_pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 60.0f));
         //_pouvoirs.Add(new Pouvoirs(PouvoirsType.Invincibilite, 10.0f));
         //_pouvoirs.Add(new Pouvoirs(PouvoirsType.DoubleScore, 15.0f));
+        // Création des pouvoirs
+        var bouclier = new Pouvoirs(PouvoirsType.Bouclier, 5.0f);
+        bouclier.GenererPositionAleatoire(950, 750, _pouvoirs);
+        _pouvoirs.Add(bouclier);
+
+        var doubleScore = new Pouvoirs(PouvoirsType.DoubleScore, 15.0f);
+        doubleScore.GenererPositionAleatoire(950, 750, _pouvoirs);
+        _pouvoirs.Add(doubleScore);
+        
+        
     }
 
     protected override void LoadContent()
@@ -71,6 +83,7 @@ public class MyGame : Game
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
         _shieldTexture = Content.Load<Texture2D>("images/shield");
         _shipWithShieldTexture = Content.Load<Texture2D>("images/ship_with_shield");
+        _doubleScoreTexture = Content.Load<Texture2D>("images/double_score");
         
         _font = Content.Load<SpriteFont>("fonts/Game_fonts"); 
         
@@ -104,8 +117,15 @@ public class MyGame : Game
         _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (_timer >= 1.0f)
         {
-            _score += 10;
+            //_score += 10;
+            _score += (int)(10 * _scoreMultiplier); // Multiplie le score
             _timer -= 1.0f;
+        }
+        
+        // Réinitialiser le multiplicateur si le Double Score expire
+        if (_scoreMultiplier > 1.0f && _pouvoirs.Find(p => p.Type == PouvoirsType.DoubleScore && !p.Actif) == null)
+        {
+            _scoreMultiplier = 1.0f;
         }
 
 
@@ -158,7 +178,13 @@ public class MyGame : Game
             {
                 if (!pouvoir.Actif)
                 {
-                    pouvoir.Draw(_spriteBatch, _shieldTexture);
+                    var texture = pouvoir.Type switch 
+                    {
+                        PouvoirsType.Bouclier => _shieldTexture,
+                        PouvoirsType.DoubleScore => _doubleScoreTexture,
+                        _ => null
+                    };
+                    pouvoir.Draw(_spriteBatch, texture);
                 }
             }
             // Dessiner le joueur, blocs et score
@@ -187,10 +213,12 @@ public class MyGame : Game
             Vector2 textPos1 = new Vector2(cadreX + 50, cadreY + 50); // Position du premier texte
             Vector2 textPos2 = new Vector2(cadreX + 50, cadreY + 100); // Position du deuxième texte
             Vector2 textPos3 = new Vector2(cadreX + 50, cadreY + 130); // Position du troisième texte
-
+            
+            
             _spriteBatch.DrawString(_font, "GAME OVER", new Vector2(cadreX + 120, cadreY + 20), Color.Red);
             _spriteBatch.DrawString(_font, "Appuyez sur R pour rejouer", textPos2, Color.White);
             _spriteBatch.DrawString(_font, "Appuyez sur Echap pour quitter", textPos3, Color.White);
+            
         }
         
         _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
@@ -226,6 +254,7 @@ public class MyGame : Game
                 break;
 
             case PouvoirsType.Invincibilite:
+                _scoreMultiplier = 2;
                 Console.WriteLine("Invincibilité activée !");
                 break;
 
@@ -252,9 +281,15 @@ public class MyGame : Game
 
         // Réinitialiser les pouvoirs
         _pouvoirs = new List<Pouvoirs>();
-        _pouvoirs.Add(new Pouvoirs(PouvoirsType.Bouclier, 0f));
-    }
-    
+        
+        var bouclier = new Pouvoirs(PouvoirsType.Bouclier, 10.0f);
+        bouclier.GenererPositionAleatoire(950, 750, _pouvoirs);
+        _pouvoirs.Add(bouclier);
 
-    
+        var doubleScore = new Pouvoirs(PouvoirsType.DoubleScore, 15.0f);
+        doubleScore.GenererPositionAleatoire(950, 750, _pouvoirs);
+        _pouvoirs.Add(doubleScore);    
+        
+        Console.WriteLine("Partie réinitialisée !");
+    }
 }

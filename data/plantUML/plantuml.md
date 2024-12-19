@@ -43,7 +43,6 @@ package dodgeblock {
     -_speed : float
     +Block(texture: Texture2D, position: Vector2, size: int, speed: float)
     +InitialiseBlocks(blockTexture: Texture2D) : List<Block>
-    +LoadContent(content: ContentManager) : void
     +Update(gameTime : GameTime) : void
     +Draw(spriteBatch : SpriteBatch) : void 
     +ResetPosition() : void 

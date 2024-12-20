@@ -36,6 +36,7 @@ namespace DodgeBlock.data.Entities
             using (var stream = new FileStream(filePath, FileMode.Open))
             {
                 return (PlayerData)serializer.Deserialize(stream);
+                
             }
         }
     }

@@ -68,14 +68,15 @@ package dodgeblock {
     }
     
     enum GameState{
+    Menu
     EnJeu
     GameOver
     }
     
     enum PouvoirsType {
-    bouclier
-    invincible
-    doubleScore
+    SpeedBoost
+    SpeedDown
+    DoubleScore
     }
 
     MyGame *-- Joueur

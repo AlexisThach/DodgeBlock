@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using DodgeBlock.data.Jeu;
 using System.Text;
+using DodgeBlock.data.Enum;
+
 
 namespace DodgeBlock;
 
@@ -21,8 +23,7 @@ public class MyGame : Game
     private Texture2D _backgroundTexture;
     private Texture2D _blockTexture;
     private Texture2D _joueurTexture;
-    private Texture2D _shieldTexture;
-    private Texture2D _joueurWithShieldTexture;
+    private Texture2D _speedBoostTexture;
     private Texture2D _doubleScoreTexture;
 
     private int _score = 0;
@@ -40,14 +41,6 @@ public class MyGame : Game
     
     private int _lastScore = 0;
     private int _highestScore = 0;
-
-    public enum GameState
-    {
-        Menu,
-        EnJeu,
-        GameOver
-    }
-
     public MyGame()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -69,12 +62,12 @@ public class MyGame : Game
         _blocks = Block.InitialiseBlocks(_blockTexture);
         _pouvoirs = new List<Pouvoirs>();
     
-        var bouclier = new Pouvoirs(PouvoirsType.Bouclier, 10.0f);
-        bouclier.GenererPositionAleatoire(950, 750, _pouvoirs);
-        _pouvoirs.Add(bouclier);
+        var speedBoost = new Pouvoirs(PouvoirsType.SpeedBoost, 10.0f);
+        speedBoost.GenererPositionAleatoire(_graphics.PreferredBackBufferWidth - 50, _graphics.PreferredBackBufferHeight / 2, _pouvoirs);
+        _pouvoirs.Add(speedBoost);
     
         var doubleScore = new Pouvoirs(PouvoirsType.DoubleScore, 15.0f);
-        doubleScore.GenererPositionAleatoire(950, 750, _pouvoirs);
+        doubleScore.GenererPositionAleatoire(_graphics.PreferredBackBufferWidth - 50, _graphics.PreferredBackBufferHeight / 2, _pouvoirs);
         _pouvoirs.Add(doubleScore);
     }
 
@@ -121,8 +114,7 @@ public class MyGame : Game
         _backgroundTexture = Content.Load<Texture2D>("images/space");
         _joueurTexture = Content.Load<Texture2D>("images/ship");
         _blockTexture = Content.Load<Texture2D>("images/asteroid");
-        _shieldTexture = Content.Load<Texture2D>("images/shield");
-        _joueurWithShieldTexture = Content.Load<Texture2D>("images/ship_with_shield");
+        _speedBoostTexture = Content.Load<Texture2D>("images/speed_up");
         _doubleScoreTexture = Content.Load<Texture2D>("images/double_score");
 
         _font = Content.Load<SpriteFont>("fonts/Game_fonts");
@@ -218,13 +210,11 @@ public class MyGame : Game
             backgroundTexture.SetData(new[] { Color.Black * 0.7f });
             _spriteBatch.Draw(backgroundTexture, new Rectangle(40, 40, 300, 100), Color.White);
     
-            // Draw the menu text
             _spriteBatch.DrawString(_font, "Enter your name:", new Vector2(50, 50), Color.White);
             _spriteBatch.DrawString(_font, _playerNameBuilder.ToString(), new Vector2(50, 100), Color.White);
         }
         else if (_currentState == GameState.EnJeu)
         {
-            // Existing drawing logic for the game
             _joueur.Draw(_spriteBatch);
             foreach (var block in _blocks)
             {
@@ -236,18 +226,17 @@ public class MyGame : Game
                 {
                     var texture = pouvoir.Type switch
                     {
-                        PouvoirsType.Bouclier => _shieldTexture,
+                        PouvoirsType.SpeedBoost => _speedBoostTexture,
                         PouvoirsType.DoubleScore => _doubleScoreTexture,
                         _ => null
                     };
                     pouvoir.Draw(_spriteBatch, texture);
                 }
             }
-            _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
+          _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
         }
         else if (_currentState == GameState.GameOver)
         {
-            // Existing drawing logic for game over
             int cadreLargeur = 400;
             int cadreHauteur = 200;
             int cadreX = (_graphics.PreferredBackBufferWidth - cadreLargeur) / 2;
@@ -266,6 +255,7 @@ public class MyGame : Game
             _spriteBatch.DrawString(_font, $"Highest Score: {_highestScore}", textPos2, Color.Green);
             _spriteBatch.DrawString(_font, "Appuyez sur R pour rejouer", textPos3, Color.White);
             _spriteBatch.DrawString(_font, "Appuyez sur Echap pour quitter", new Vector2(cadreX + 50, cadreY + 160), Color.White);
+    
         }
     
         _spriteBatch.End();
@@ -274,13 +264,11 @@ public class MyGame : Game
 
    private void HandleCollision()
    {
-        // Vérifie si le joueur a un pouvoir Bouclier actif
-       var bouclier = _pouvoirs.Find(p => p.Type == PouvoirsType.Bouclier && p.Actif);
-       if (bouclier != null)
+        // Vérifie si le joueur a un pouvoir speedBoost actif
+       var speedBoost = _pouvoirs.Find(p => p.Type == PouvoirsType.SpeedBoost && p.Actif);
+       if (speedBoost != null)
        {
-           bouclier.DesactiverPouvoir();
-           _joueur.ChangerApparence(_joueurTexture);// Revenir à la texture par défaut
-           Console.WriteLine("Collision ignored due to Shield!");
+           speedBoost.DesactiverPouvoir();
            return;
        }
    
@@ -299,14 +287,14 @@ public class MyGame : Game
    
        switch (pouvoir.Type)
        {
-           case PouvoirsType.Bouclier:
-               _joueur.ChangerApparence(_joueurWithShieldTexture);
+           case PouvoirsType.DoubleScore:
+               Console.WriteLine("Double score activé !");
                break;
    
-           case PouvoirsType.DoubleScore:
+           case PouvoirsType.SpeedBoost:
                _joueur.SpeedAcc *= 2; //  Doubler l'accélération du joueur
                _joueur.SpeedDec *= 2; // Doubler la décélération du joueur
-               pouvoir.Duree = 5.0f; // Réduire la durée du pouvoir à 5 secondes
+               pouvoir.Duree = 10.0f; // Réduire la durée du pouvoir à 10 secondes
                Console.WriteLine("Double speed activé !");
                break;
    
@@ -331,9 +319,9 @@ public class MyGame : Game
         // Réinitialiser les pouvoirs
         _pouvoirs = new List<Pouvoirs>();
 
-        var bouclier = new Pouvoirs(PouvoirsType.Bouclier, 10.0f);
-        bouclier.GenererPositionAleatoire(950, 750, _pouvoirs);
-        _pouvoirs.Add(bouclier);
+        var speedBoost = new Pouvoirs(PouvoirsType.SpeedBoost, 10.0f);
+        speedBoost.GenererPositionAleatoire(950, 750, _pouvoirs);
+        _pouvoirs.Add(speedBoost);
 
         var doubleScore = new Pouvoirs(PouvoirsType.DoubleScore, 15.0f);
         doubleScore.GenererPositionAleatoire(950, 750, _pouvoirs);

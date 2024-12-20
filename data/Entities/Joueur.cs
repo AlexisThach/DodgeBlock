@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using DodgeBlock.data.Enum;
 
 namespace DodgeBlock.data.Jeu;
 

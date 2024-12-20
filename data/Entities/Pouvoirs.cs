@@ -2,16 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using DodgeBlock.data.Enum;
 
 namespace DodgeBlock.data.Jeu;
-
-// Énumération pour les types de pouvoirs
-public enum PouvoirsType
-{
-    Bouclier,       // Bouclier : protège contre un impact
-    Invincibilite,  // Invincibilité : immunité temporaire
-    DoubleScore,    // DoubleScore : double le score obtenu pendant un temps limité
-}
 
 public class Pouvoirs
 {
@@ -41,8 +34,8 @@ public class Pouvoirs
 
         do
         {
-            PositionX = random.Next(0, largeurMax - 50); // Position X entre 0 et largeurMax
-            PositionY = random.Next(0, hauteurMax - 50); // Position Y entre 0 et hauteurMax
+            PositionX = random.Next(0, largeurMax); // Position X entre 0 et largeurMax
+            PositionY = random.Next(0, hauteurMax); // Position Y entre 0 et hauteurMax
 
             // Vérifie si cette position entre en collision avec d'autres pouvoirs
             positionValide = true;
@@ -88,7 +81,7 @@ public class Pouvoirs
             {
                 DesactiverPouvoir();
 
-                if (Type == PouvoirsType.Bouclier)
+                if (Type == PouvoirsType.SpeedBoost)
                 {
                     joueur.ChangerApparence(baseTexture); // Réinitialiser l'apparence du joueur
                 }

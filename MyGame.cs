@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DodgeBlock.data.Jeu;
 using System.Text;
 using DodgeBlock.data.Enum;
+using DodgeBlock.data.Entities;
 
 
 namespace DodgeBlock;
@@ -38,7 +39,8 @@ public class MyGame : Game
     private GameState _currentState = GameState.EnJeu;
 
     private string _playerName = "";
-    private bool _isNameEntered = false;
+    private bool _isNameEntered;
+    
 
     private StringBuilder _playerNameBuilder = new StringBuilder();
     private KeyboardState _previousKeyboardState;
@@ -280,24 +282,25 @@ private void RespawnDoubleScore()
     base.Draw(gameTime);
 }
 
-   private void HandleCollision()
-   {
-        // Vérifie si le joueur a un pouvoir speedBoost actif
-       var speedBoost = _pouvoirs.Find(p => p.Type == PouvoirsType.SpeedBoost && p.Actif);
-       if (speedBoost != null)
-       {
-           speedBoost.DesactiverPouvoir();
-           return;
-       }
-   
-       Console.WriteLine("Game Over!");
-       _lastScore = _score;
-       if (_lastScore > _highestScore)
-       {
-           _highestScore = _lastScore;
-       }
-       _currentState = GameState.GameOver;
-   }
+    private void HandleCollision()
+    {
+        var speedBoost = _pouvoirs.Find(p => p.Type == PouvoirsType.SpeedBoost && p.Actif);
+        if (speedBoost != null)
+        {
+            speedBoost.DesactiverPouvoir();
+            return;
+        }
+
+        Console.WriteLine("Game Over!");
+        _lastScore = _score;
+        if (_lastScore > _highestScore)
+        {
+            _highestScore = _lastScore;
+        }
+        _currentState = GameState.GameOver;
+
+        SavePlayerScores();
+    }
 
    private void ActiverPouvoir(Pouvoirs pouvoir)
    {
@@ -354,7 +357,19 @@ private void RespawnDoubleScore()
 
     private void LoadPlayerScores()
     {
-        // Charger les scores du joueur à partir du fichier XML
-        // Utiliser le nom du joueur pour identifier le fichier
+        var playerData = PlayerDataManager.LoadPlayerData(_playerName);
+        _lastScore = playerData.LastScore;
+        _highestScore = playerData.HighestScore;
+    }
+    private void SavePlayerScores()
+    {
+        var playerData = new PlayerData
+        {
+            PlayerName = _playerName,
+            LastScore = _lastScore,
+            HighestScore = _highestScore
+        };
+
+        PlayerDataManager.SavePlayerData(playerData);
     }
 }

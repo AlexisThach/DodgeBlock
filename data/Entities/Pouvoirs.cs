@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using DodgeBlock.data.Enum;
 using System.Threading.Tasks;
 
-namespace DodgeBlock.data.Jeu;
+namespace DodgeBlock.data.Entities;
 
 public class Pouvoirs
 {

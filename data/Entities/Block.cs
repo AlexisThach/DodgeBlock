@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System;
 
-namespace DodgeBlock.data.Jeu;
+namespace DodgeBlock.data.Entities;
 
 public class Block
 {

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using DodgeBlock.data.Enum;
 
-namespace DodgeBlock.data.Jeu;
+namespace DodgeBlock.data.Entities;
 
 public class Joueur
 {

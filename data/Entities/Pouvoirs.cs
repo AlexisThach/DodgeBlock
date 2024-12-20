@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using DodgeBlock.data.Enum;
+using System.Threading.Tasks;
 
 namespace DodgeBlock.data.Jeu;
 
@@ -93,6 +94,7 @@ public class Pouvoirs
             }
         }
     }
+    
 
     public void Draw(SpriteBatch spriteBatch, Texture2D texture)
     {

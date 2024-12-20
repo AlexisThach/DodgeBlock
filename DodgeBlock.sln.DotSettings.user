@@ -1,4 +1,4 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ea43368c_002Daf1a_002D4cd7_002Db66d_002D9dd9b015a266/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Block.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;ProjectFile&gt;33C29545-25D6-4E59-85F9-16A85CA52B2F/d:data/d:Jeu/f:Block.cs&lt;/ProjectFile&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ea43368c_002Daf1a_002D4cd7_002Db66d_002D9dd9b015a266/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Block.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;33C29545-25D6-4E59-85F9-16A85CA52B2F/d:data/d:Jeu/f:Block.cs&lt;/ProjectFile&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

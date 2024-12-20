@@ -18,8 +18,7 @@ public class MyGame : Game
     private Joueur _joueur;
     private List<Block> _blocks;
     private List<Pouvoirs> _pouvoirs;
-
-    private Random _random = new Random();
+    
     private Texture2D _backgroundTexture;
     private Texture2D _blockTexture;
     private Texture2D _joueurTexture;
@@ -40,7 +39,6 @@ public class MyGame : Game
     private string _playerName = "";
     private bool _isNameEntered;
     
-
     private StringBuilder _playerNameBuilder = new StringBuilder();
     private KeyboardState _previousKeyboardState;
     
@@ -224,8 +222,8 @@ private void RespawnDoubleScore()
     _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
 
     if (_currentState == GameState.Menu)
-    {
-        // Draw a semi-transparent background for the menu text
+    {   
+        // Dessine un fond semi-transparent pour le texte du menu
         Texture2D backgroundTexture = new Texture2D(GraphicsDevice, 1, 1);
         backgroundTexture.SetData(new[] { Color.Black * 0.7f });
         _spriteBatch.Draw(backgroundTexture, new Rectangle(40, 40, 300, 100), Color.White);
@@ -309,19 +307,16 @@ private void RespawnDoubleScore()
        {
            case PouvoirsType.DoubleScore:
                Console.WriteLine("Double score activé !");
-               _scoreMultiplier = 2.0f; // Double the score multiplier
-               _score += 20; // Add 20 points to the score
-              
+               _scoreMultiplier = 2.0f; 
+               _score += 20; 
                break;
 
            case PouvoirsType.SpeedBoost:
-               _joueur.SpeedAcc *= 2; // Double the player's acceleration
-               _joueur.SpeedDec *= 2; // Double the player's deceleration
-               pouvoir.Duree = 10.0f; // Reduce the power duration to 10 seconds
+               _joueur.SpeedAcc *= 2; 
+               _joueur.SpeedDec *= 2; 
+               pouvoir.Duree = 10.0f;
                Console.WriteLine("Double speed activé !");
-              
                break;
-
            default:
                Console.WriteLine("Pouvoir inconnu activé !");
                break;
@@ -364,7 +359,7 @@ private void RespawnDoubleScore()
     {
         var playerData = PlayerDataManager.LoadPlayerData(_playerName);
 
-        // Update the scores
+        // Mise a jour du score
         playerData.LastScore = _lastScore;
         if (_lastScore > playerData.HighestScore)
         {

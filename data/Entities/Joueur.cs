@@ -18,15 +18,6 @@ public class Joueur
     private float _speedAcc = 0.2f; 
     private float _speedDec = 0.1f;
     
-    private int _score;
-    
-    //invisibilte
-    private bool _isInvisible;
-    private float _invisibilityDuration;
-    private float _invisibilityTimer;
-
-    public bool IsInvisible => _isInvisible;
-    
     public Joueur(Texture2D texture, Vector2 position, int size)
     {
         Texture = texture;
@@ -132,56 +123,22 @@ public class Joueur
     {
         // Débug hitbox du joueur
         //spriteBatch.Draw(_texture, Rect, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 0);
-        if (!_isInvisible)
-        {
-            var origin = new Vector2(_texture.Width - _size, _texture.Height - _size);
-            spriteBatch.Draw(
-                _texture, // Texture2D
-                Rect, // Rectangle destination
-                null, // Nullable<Rectangle> sourceRectangle
-                _color, // Color
-                0.0f, // float rotation
-                origin, // Vector2 origin
-                SpriteEffects.None, // SpriteEffects
-                0f // float layerDepth
-            );
-        }
+        
+        var origin = new Vector2(_texture.Width - _size, _texture.Height - _size);
+        spriteBatch.Draw(
+            _texture, // Texture2D
+            Rect, // Rectangle destination
+            null, // Nullable<Rectangle> sourceRectangle
+            _color, // Color
+            0.0f, // float rotation
+            origin, // Vector2 origin
+            SpriteEffects.None, // SpriteEffects
+            0f // float layerDepth
+        );
+    
     }
     public void ChangerApparence(Texture2D nouvelleTexture)
     {
         _texture = nouvelleTexture;
     }
-    public int Score
-    {
-        get => _score;
-        private set => _score = value;
-    }
-    public void IncrementerScore(int points, Pouvoirs pouvoirActif)
-    {
-        if (pouvoirActif != null && pouvoirActif.Type == PouvoirsType.DoubleScore && pouvoirActif.Actif)
-        {
-            points *= 2; // Double les points
-        }
-
-        _score += points;
-    }
-    
-    public void ActiverInvisibilite(float duree)
-    {
-        _isInvisible = true;
-        _invisibilityDuration = duree;
-        _invisibilityTimer = duree;
-    }
-    public void MettreAJourInvisibilite(float deltaTime)
-         {
-             if (_isInvisible)
-             {
-                 _invisibilityTimer -= deltaTime;
-                 if (_invisibilityTimer <= 0)
-                 {
-                     _isInvisible = false;
-                     _invisibilityTimer = 0;
-                 }
-             }
-         }
 }

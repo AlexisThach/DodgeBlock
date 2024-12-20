@@ -9,14 +9,18 @@ package dodgeblock {
     -_timer : float
     -_currentState : GameState
     +MyGame()
-    -void GetPositionDepart()
+    -GetPositionDepart() : void
+    -HandleMenu() : void
+    -RespawnDoubleScore() : void
     #Initialize() : void
     #LoadContent() : void
     #Update() : void
     #Draw() : void
-    +HandleCollision() : void
+    -HandleCollision() : void
     -ActiverPouvoir() : void
     -ResetGame() : void
+    -LoadPlayerScores() : void
+    -SavePlayerScores() : void
     }
     
     class Joueur {
@@ -27,6 +31,10 @@ package dodgeblock {
     -_speedAcc : float
     -_speedDec : float
     +Joueur(texture: Texture2D, position: Vector2, size: int)
+    +SpeedAcc : float
+    +SpeedDec : float
+    +Texture : Texture2D
+    +Rect : Rectangle
     +Update(gameTime : GameTime) : void
     +Draw(spriteBatch : SpriteBatch) : void
     +ChangerApparence(nouvelleTexture: Texture2D) : void
@@ -54,10 +62,10 @@ package dodgeblock {
     
     class Pouvoirs {
     +Type : PouvoirsType
-    -_duree : float
-    -_actif : bool
-    -_positionX : int
-    -_positionY : int
+    +Aduree : float
+    +Aactif : bool
+    +PositionX : int
+    +PositionY : int
     -_tempsRestant : float
     +Pouvoirs(type: PouvoirsType, duree: float)
     +GenererPositionAleatoire(largeurMax : int, hauteurMax : int) : void

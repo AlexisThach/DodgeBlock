@@ -30,6 +30,10 @@ public class MyGame : Game
     private float _scoreMultiplier = 1.0f;
     private float _timer = 0f;
     private SpriteFont _font;
+    
+    private float _doubleScoreRespawnTimer = 0f;
+    private const float DoubleScoreRespawnInterval = 5.0f;
+
 
     private GameState _currentState = GameState.EnJeu;
 
@@ -123,144 +127,158 @@ public class MyGame : Game
     }
 
    protected override void Update(GameTime gameTime)
-   {
-       if (_currentState == GameState.Menu)
-       {
-           HandleMenu();
-           return;
-       }
-   
-       if (_currentState == GameState.GameOver)
-       {
-           var keyboardState = Keyboard.GetState();
-   
-           if (keyboardState.IsKeyDown(Keys.R))
-           {
-               ResetGame();
-           }
-           else if (keyboardState.IsKeyDown(Keys.Escape))
-           {
-               Exit();
-           }
-   
-           return;
-       }
-   
-       _joueur.Update(gameTime);
-   
-       _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-       if (_timer >= 1.0f)
-       {
-           _score += (int)(10 * _scoreMultiplier);
-           _timer -= 1.0f;
-   
-           foreach (var pouvoir in _pouvoirs)
-           {
-               pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds, _joueur, _joueurTexture);
-           }
-       }
-   
-       if (_scoreMultiplier > 1.0f && !_pouvoirs.Exists(p => p.Type == PouvoirsType.DoubleScore && p.Actif))
-       {
-           _scoreMultiplier = 1.0f;
-       }
-   
-       foreach (var block in _blocks)
-       {
-           block.Update(gameTime);
-   
-           if (_joueur.Rect.Intersects(block.Rect))
-           {
-               HandleCollision();
-               break;
-           }
-       }
-   
-       for (int i = 0; i < _pouvoirs.Count; i++)
-       {
-           var pouvoir = _pouvoirs[i];
-   
-           if (_joueur.Rect.Intersects(pouvoir.Rect))
-           {
-               ActiverPouvoir(pouvoir);
-               _pouvoirs.RemoveAt(i);
-               break;
-           }
-       }
-   
-       if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-       {
-           Exit();
-       }
-   
-       base.Update(gameTime);
-   }
+{
+    if (_currentState == GameState.Menu)
+    {
+        HandleMenu();
+        return;
+    }
+
+    if (_currentState == GameState.GameOver)
+    {
+        var keyboardState = Keyboard.GetState();
+
+        if (keyboardState.IsKeyDown(Keys.R))
+        {
+            ResetGame();
+        }
+        else if (keyboardState.IsKeyDown(Keys.Escape))
+        {
+            Exit();
+        }
+        
+        return;
+    }
+
+    _joueur.Update(gameTime);
+
+    _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+    if (_timer >= 1.0f)
+    {
+        _score += (int)(10 * _scoreMultiplier);
+        _timer -= 1.0f;
+
+        foreach (var pouvoir in _pouvoirs)
+        {
+            pouvoir.MettreAJour((float)gameTime.ElapsedGameTime.TotalSeconds, _joueur, _joueurTexture);
+        }
+    }
+
+    if (_scoreMultiplier > 1.0f && !_pouvoirs.Exists(p => p.Type == PouvoirsType.DoubleScore && p.Actif))
+    {
+        _scoreMultiplier = 1.0f;
+    }
+
+    foreach (var block in _blocks)
+    {
+        block.Update(gameTime);
+
+        if (_joueur.Rect.Intersects(block.Rect))
+        {
+            HandleCollision();
+            break;
+        }
+    }
+
+    for (int i = 0; i < _pouvoirs.Count; i++)
+    {
+        var pouvoir = _pouvoirs[i];
+
+        if (_joueur.Rect.Intersects(pouvoir.Rect))
+        {
+            ActiverPouvoir(pouvoir);
+            _pouvoirs.RemoveAt(i);
+            break;
+        }
+    }
+
+    // Mettre à jour le timer de respawn du double score
+    _doubleScoreRespawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+    if (_doubleScoreRespawnTimer >= DoubleScoreRespawnInterval)
+    {
+        RespawnDoubleScore();
+        _doubleScoreRespawnTimer = 0f;
+    }
+
+    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+    {
+        Exit();
+    }
+
+    base.Update(gameTime);
+}
+
+private void RespawnDoubleScore()
+{
+    var doubleScore = new Pouvoirs(PouvoirsType.DoubleScore, 5.0f);
+    doubleScore.GenererPositionAleatoire(_graphics.PreferredBackBufferWidth - 50, _graphics.PreferredBackBufferHeight / 2, _pouvoirs);
+    _pouvoirs.Add(doubleScore);
+}
 
     protected override void Draw(GameTime gameTime)
+{
+    GraphicsDevice.Clear(Color.CornflowerBlue);
+
+    _spriteBatch.Begin();
+    _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
+
+    if (_currentState == GameState.Menu)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-    
-        _spriteBatch.Begin();
-        _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
-    
-        if (_currentState == GameState.Menu)
-        {
-            // Draw a semi-transparent background for the menu text
-            Texture2D backgroundTexture = new Texture2D(GraphicsDevice, 1, 1);
-            backgroundTexture.SetData(new[] { Color.Black * 0.7f });
-            _spriteBatch.Draw(backgroundTexture, new Rectangle(40, 40, 300, 100), Color.White);
-    
-            _spriteBatch.DrawString(_font, "Enter your name:", new Vector2(50, 50), Color.White);
-            _spriteBatch.DrawString(_font, _playerNameBuilder.ToString(), new Vector2(50, 100), Color.White);
-        }
-        else if (_currentState == GameState.EnJeu)
-        {
-            _joueur.Draw(_spriteBatch);
-            foreach (var block in _blocks)
-            {
-                block.Draw(_spriteBatch);
-            }
-            foreach (var pouvoir in _pouvoirs)
-            {
-                if (!pouvoir.Actif)
-                {
-                    var texture = pouvoir.Type switch
-                    {
-                        PouvoirsType.SpeedBoost => _speedBoostTexture,
-                        PouvoirsType.DoubleScore => _doubleScoreTexture,
-                        _ => null
-                    };
-                    pouvoir.Draw(_spriteBatch, texture);
-                }
-            }
-          _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
-        }
-        else if (_currentState == GameState.GameOver)
-        {
-            int cadreLargeur = 400;
-            int cadreHauteur = 200;
-            int cadreX = (_graphics.PreferredBackBufferWidth - cadreLargeur) / 2;
-            int cadreY = (_graphics.PreferredBackBufferHeight - cadreHauteur) / 2;
-    
-            Texture2D cadreTexture = new Texture2D(GraphicsDevice, 1, 1);
-            cadreTexture.SetData(new[] { Color.Black * 0.7f });
-            _spriteBatch.Draw(cadreTexture, new Rectangle(cadreX, cadreY, cadreLargeur, cadreHauteur), Color.White);
-    
-            Vector2 textPos1 = new Vector2(cadreX + (cadreLargeur / 2) - (_font.MeasureString($"Last Score: {_lastScore}").X / 2), cadreY + 50);
-            Vector2 textPos2 = new Vector2(cadreX + (cadreLargeur / 2) - (_font.MeasureString($"Highest Score: {_highestScore}").X / 2), cadreY + 100);
-            Vector2 textPos3 = new Vector2(cadreX + 50, cadreY + 130);
-    
-            _spriteBatch.DrawString(_font, "GAME OVER", new Vector2(cadreX + 120, cadreY + 20), Color.Red);
-            _spriteBatch.DrawString(_font, $"Last Score: {_lastScore}", textPos1, Color.Yellow);
-            _spriteBatch.DrawString(_font, $"Highest Score: {_highestScore}", textPos2, Color.Green);
-            _spriteBatch.DrawString(_font, "Appuyez sur R pour rejouer", textPos3, Color.White);
-            _spriteBatch.DrawString(_font, "Appuyez sur Echap pour quitter", new Vector2(cadreX + 50, cadreY + 160), Color.White);
-    
-        }
-    
-        _spriteBatch.End();
-        base.Draw(gameTime);
+        // Draw a semi-transparent background for the menu text
+        Texture2D backgroundTexture = new Texture2D(GraphicsDevice, 1, 1);
+        backgroundTexture.SetData(new[] { Color.Black * 0.7f });
+        _spriteBatch.Draw(backgroundTexture, new Rectangle(40, 40, 300, 100), Color.White);
+
+        _spriteBatch.DrawString(_font, "Enter your name:", new Vector2(50, 50), Color.White);
+        _spriteBatch.DrawString(_font, _playerNameBuilder.ToString(), new Vector2(50, 100), Color.White);
     }
+    else if (_currentState == GameState.EnJeu)
+    {
+        _joueur.Draw(_spriteBatch);
+        foreach (var block in _blocks)
+        {
+            block.Draw(_spriteBatch);
+        }
+        foreach (var pouvoir in _pouvoirs)
+        {
+            if (!pouvoir.Actif)
+            {
+                var texture = pouvoir.Type switch
+                {
+                    PouvoirsType.SpeedBoost => _speedBoostTexture,
+                    PouvoirsType.DoubleScore => _doubleScoreTexture,
+                    _ => null
+                };
+                pouvoir.Draw(_spriteBatch, texture);
+            }
+        }
+        _spriteBatch.DrawString(_font, $"Score : {_score}", new Vector2(50, 50), Color.White);
+    }
+    else if (_currentState == GameState.GameOver)
+    {
+        int cadreLargeur = 400;
+        int cadreHauteur = 200;
+        int cadreX = (_graphics.PreferredBackBufferWidth - cadreLargeur) / 2;
+        int cadreY = (_graphics.PreferredBackBufferHeight - cadreHauteur) / 2;
+
+        Texture2D cadreTexture = new Texture2D(GraphicsDevice, 1, 1);
+        cadreTexture.SetData(new[] { Color.Black * 0.7f });
+        _spriteBatch.Draw(cadreTexture, new Rectangle(cadreX, cadreY, cadreLargeur, cadreHauteur), Color.White);
+
+        Vector2 textPos1 = new Vector2(cadreX + (cadreLargeur / 2) - (_font.MeasureString($"Last Score: {_lastScore}").X / 2), cadreY + 50);
+        Vector2 textPos2 = new Vector2(cadreX + (cadreLargeur / 2) - (_font.MeasureString($"Highest Score: {_highestScore}").X / 2), cadreY + 100);
+        Vector2 textPos3 = new Vector2(cadreX + 50, cadreY + 130);
+
+        _spriteBatch.DrawString(_font, "GAME OVER", new Vector2(cadreX + 120, cadreY + 20), Color.Red);
+        _spriteBatch.DrawString(_font, $"Last Score: {_lastScore}", textPos1, Color.Yellow);
+        _spriteBatch.DrawString(_font, $"Highest Score: {_highestScore}", textPos2, Color.Green);
+        _spriteBatch.DrawString(_font, "Appuyez sur R pour rejouer", textPos3, Color.White);
+        _spriteBatch.DrawString(_font, "Appuyez sur Echap pour quitter", new Vector2(cadreX + 50, cadreY + 160), Color.White);
+    }
+
+    _spriteBatch.End();
+    base.Draw(gameTime);
+}
 
    private void HandleCollision()
    {
@@ -284,20 +302,24 @@ public class MyGame : Game
    private void ActiverPouvoir(Pouvoirs pouvoir)
    {
        pouvoir.ActiverPouvoir();
-   
+
        switch (pouvoir.Type)
        {
            case PouvoirsType.DoubleScore:
                Console.WriteLine("Double score activé !");
+               _scoreMultiplier = 2.0f; // Double the score multiplier
+               _score += 20; // Add 20 points to the score
+              
                break;
-   
+
            case PouvoirsType.SpeedBoost:
-               _joueur.SpeedAcc *= 2; //  Doubler l'accélération du joueur
-               _joueur.SpeedDec *= 2; // Doubler la décélération du joueur
-               pouvoir.Duree = 10.0f; // Réduire la durée du pouvoir à 10 secondes
+               _joueur.SpeedAcc *= 2; // Double the player's acceleration
+               _joueur.SpeedDec *= 2; // Double the player's deceleration
+               pouvoir.Duree = 10.0f; // Reduce the power duration to 10 seconds
                Console.WriteLine("Double speed activé !");
+              
                break;
-   
+
            default:
                Console.WriteLine("Pouvoir inconnu activé !");
                break;

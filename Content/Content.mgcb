@@ -44,7 +44,7 @@
 /processorParam:TextureFormat=Color
 /build:images/double_score.png
 
-#begin images/shield.png
+#begin images/speed_up.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -54,7 +54,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/shield.png
+/build:images/speed_up.png
 
 #begin images/ship.png
 /importer:TextureImporter
@@ -68,17 +68,6 @@
 /processorParam:TextureFormat=Color
 /build:images/ship.png
 
-#begin images/ship_with_shield.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:images/ship_with_shield.png
 
 #begin images/space.jpg
 /importer:TextureImporter

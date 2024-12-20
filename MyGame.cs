@@ -362,12 +362,14 @@ private void RespawnDoubleScore()
     }
     private void SavePlayerScores()
     {
-        var playerData = new PlayerData
+        var playerData = PlayerDataManager.LoadPlayerData(_playerName);
+
+        // Update the scores
+        playerData.LastScore = _lastScore;
+        if (_lastScore > playerData.HighestScore)
         {
-            PlayerName = _playerName,
-            LastScore = _lastScore,
-            HighestScore = _highestScore
-        };
+            playerData.HighestScore = _lastScore;
+        }
 
         PlayerDataManager.SavePlayerData(playerData);
     }

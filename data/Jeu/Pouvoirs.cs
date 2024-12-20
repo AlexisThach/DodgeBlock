@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace DodgeBlock.data.Jeu;
- 
+
 // Énumération pour les types de pouvoirs
 public enum PouvoirsType
 {
@@ -14,18 +14,15 @@ public enum PouvoirsType
 }
 
 public class Pouvoirs
-{   
+{
     public PouvoirsType Type { get; private set; }
-    public float Duree { get; private set; }
+    public float Duree { get; set; }
     public bool Actif { get; private set; }
 
     public int PositionX { get; private set; }
     public int PositionY { get; private set; }
-    
-    
-    
-    public Rectangle Rect => new Rectangle(PositionX, PositionY, 50, 50); // Taille du pouvoir
 
+    public Rectangle Rect => new Rectangle(PositionX, PositionY, 50, 50); // Taille du pouvoir
 
     private float tempsRestant;
 
@@ -61,7 +58,7 @@ public class Pouvoirs
 
         Console.WriteLine($"Position aléatoire de {Type} : ({PositionX}, {PositionY})");
     }
-    
+
     public void ActiverPouvoir()
     {
         if (!Actif)
@@ -90,15 +87,20 @@ public class Pouvoirs
             if (tempsRestant <= 0)
             {
                 DesactiverPouvoir();
-                
-                if(Type == PouvoirsType.Bouclier)
+
+                if (Type == PouvoirsType.Bouclier)
                 {
-                    joueur.ChangerApparence(baseTexture);
+                    joueur.ChangerApparence(baseTexture); // Réinitialiser l'apparence du joueur
+                }
+                else if (Type == PouvoirsType.DoubleScore)
+                {
+                    joueur.SpeedAcc /= 2; // Réinitialiser l'accélération du joueur
+                    joueur.SpeedDec /= 2; // Réinitialiser la décélération du joueur
                 }
             }
         }
     }
-    
+
     public void Draw(SpriteBatch spriteBatch, Texture2D texture)
     {
         if (!Actif)
@@ -106,7 +108,4 @@ public class Pouvoirs
             spriteBatch.Draw(texture, new Rectangle(PositionX, PositionY, 50, 50), Color.White);
         }
     }
-    
 }
-
-
